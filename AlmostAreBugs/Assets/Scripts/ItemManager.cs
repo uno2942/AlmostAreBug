@@ -6,7 +6,8 @@ public class ItemManager : MonoBehaviour
 {
     [System.Flags]
     public enum ItemList { Scissors };
-
+    [System.Flags]
+    public enum PresentState { Default, Dropped, Gotten, Discarded };
     void Start()
     {
         

@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    [System.Flags]
-    public enum PresentState { Dropped, Gotten, Discarded};
-    public PresentState presentState;
-    public ItemManager.ItemList itemList;
-    public delegate void ClickEventHandler( object s );
+
+    public ItemManager.PresentState presentState;
+    public ItemManager.ItemList item;
+    public delegate void ClickEventHandler( ItemManager.ItemList item, ItemManager.PresentState presentState );
     public event ClickEventHandler ClickEvent;
+    private UiManager uiManager;
     // Start is called before the first frame update
     protected virtual void Start() 
     {
-        presentState = PresentState.Dropped;
+        uiManager = GameObject.Find( "UiManager" ).GetComponent<UiManager>();
+        presentState = ItemManager.PresentState.Dropped;
+        ClickEvent += ItemGet;
         //ClickEvent에 Subscriber를 붙여줍시다.
     }
 
@@ -24,11 +26,16 @@ public class Item : MonoBehaviour
     }
 
     public virtual void Clicked() {
-        if( presentState == PresentState.Dropped )  {
-            presentState = PresentState.Gotten;
-            if( ClickEvent != null )
-                ClickEvent( itemList );
+        if( presentState == ItemManager.PresentState.Dropped )  {
+            presentState = ItemManager.PresentState.Gotten;
+            ClickEvent?.Invoke( item, presentState );
+            ClickEvent = null;
+            ClickEvent += uiManager.OpenMessageBox;
             return;
         }
+    }
+
+    public virtual void ItemGet(ItemManager.ItemList item, ItemManager.PresentState presentState) {
+
     }
 }

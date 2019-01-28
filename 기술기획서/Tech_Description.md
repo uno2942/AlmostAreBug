@@ -148,6 +148,8 @@ private HorizontalLayoutGroup itemPanel;
 
 ## Methods
 
+public void OpenMessageBox( ItemManager.ItemList item, ItemManager.PresentState presentState )
+
 public void MoveLeft()
 
 현재 Scene에 따라 왼쪽 Scene으로 이동
@@ -237,9 +239,7 @@ public void BugOvercomed(BugList bug)
 
 # ItemManager
 
-[Flags] enum ItemLabels 
 
-​	아이템의 종류에 대한 정보를 가지는 열거형
 
 ## Constructor
 
@@ -251,7 +251,12 @@ public void BugOvercomed(BugList bug)
 
 ## Fields
 
+[System.Flags]
+    public enum ItemList { Scissors };
 
+[System.Flags]
+
+public enum PresentState { Dropped, Gotten, Discarded};
 
 ## Properties
 
@@ -279,11 +284,15 @@ public void BugOvercomed(BugList bug)
 
 ## Constants 
 
-
+const int MAXITEMNUM = 20;
 
 ## Fields
 
-private List<Item>  itemsInInventory
+public struct ItemElement { public ItemManager.ItemList item; public int num;}
+
+
+
+private ItemElement[]  itemsInInventory
 
 ​	인벤토리 안의 아이템들을 가지고 있는 List
 
@@ -291,11 +300,17 @@ private List<Item>  itemsInInventory
 
 ## Properties
 
-public List<Item> ItemsInInventory { get => itemsInInventory; }
+public ItemElement[] ItemsInInventory { get => itemsInInventory; }
 
 ## Methods
 
+public bool AddItem(ItemManager.ItemList itemList )
 
+public bool RemoveItem( ItemManager.ItemList itemList )
+
+public ItemElement CheckItemElement( ItemManager.ItemList itemList )
+
+public bool CheckItem( ItemManager.ItemList itemList )
 
 ## Events
 
@@ -323,17 +338,17 @@ Derived from: Monobehavior
 
 ## Fields
 
-public enum PresentState { Dropped, Gotten, Discarded};
-
 public PresentState presentState;
 
-​public ItemManager.ItemList itemList;
+​public ItemManager.ItemList item;
 
 public event EventHandler Click
 
 ​	아이템이 클릭되었을 때 해야할 반응을 Event로 처리한다.(현재 생각은 Inventory로 들어갔을 때 EventHandler를 바꿔주는 방식으로 할까 생각 중)
 
 public event ClickEventHandler ClickEvent;
+
+private UiManager uiManager;
 
 ## Properties
 
@@ -346,6 +361,8 @@ protected virtual void start()
 protected virtual void update()
 
 public virtual void Clicked()
+
+public virtual void ItemGet(ItemManager.ItemList item, ItemManager.PresentState presentState)
 
 ## Events
 

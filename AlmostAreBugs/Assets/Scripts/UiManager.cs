@@ -20,6 +20,9 @@ public class UiManager : MonoBehaviour
         
     }
 
+    public void OpenMessageBox( ItemManager.ItemList item, ItemManager.PresentState presentState ) {
+        //MessageBox를 띄움.
+    }
     public void MoveLeft() {
 
     }
