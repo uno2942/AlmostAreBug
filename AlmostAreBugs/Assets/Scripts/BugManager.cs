@@ -23,7 +23,10 @@ public class BugManager : MonoBehaviour
         
     }
 
-    public bool IsTheBugOvercomed( BugList bug ) {
+    public void BugOvercomed(BugList bug ) {
+        bugDic[ bug ] = true;
+    }
+    public bool IsBugOvercomed( BugList bug ) {
         return bugDic[ bug ];
     }
 }

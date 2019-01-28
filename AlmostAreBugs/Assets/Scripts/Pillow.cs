@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemManager : MonoBehaviour
+public class Pillow :Item
 {
-    [System.Flags]
-    public enum ItemList { Scissors };
-
-    void Start()
+    // Start is called before the first frame update
+    protected override void Start()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         
     }

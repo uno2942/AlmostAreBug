@@ -140,13 +140,21 @@ public void WriteALine( string str )
 
 private DialogWindow dialogWindow
 
+private HorizontalLayoutGroup itemPanel;
+
 ## Properties
 
 
 
 ## Methods
 
+public void MoveLeft()
 
+현재 Scene에 따라 왼쪽 Scene으로 이동
+
+public void MoveRight()
+
+현재 Scene에 따라 오른쪽 Scene으로 이동
 
 ## Events
 
@@ -183,7 +191,9 @@ Dictionary<BugList, bool> bugDic
 
 ## Methods
 
-public bool IsTheBugOvercomed(BugList bug)
+public bool IsBugOvercomed(BugList bug)
+
+public void BugOvercomed(BugList bug)
 
 ## Events
 
@@ -313,6 +323,12 @@ Derived from: Monobehavior
 
 ## Fields
 
+public enum PresentState { Dropped, Gotten, Discarded};
+
+public PresentState presentState;
+
+​public ItemManager.ItemList itemList;
+
 public event EventHandler Click
 
 ​	아이템이 클릭되었을 때 해야할 반응을 Event로 처리한다.(현재 생각은 Inventory로 들어갔을 때 EventHandler를 바꿔주는 방식으로 할까 생각 중)
@@ -328,6 +344,8 @@ public event ClickEventHandler ClickEvent;
 protected virtual void start()
 
 protected virtual void update()
+
+public virtual void Clicked()
 
 ## Events
 
