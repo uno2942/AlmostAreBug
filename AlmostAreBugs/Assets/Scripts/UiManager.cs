@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    private DialogWindow dialogWindow;
+    private ScriptWindow scriptWindow;
     private HorizontalLayoutGroup itemPanel;
     // Start is called before the first frame update
     void Start()
     {
-        dialogWindow = GameObject.Find( "DialogWindow" ).GetComponent<DialogWindow>();
+    //    dialogWindow = GameObject.Find( "DialogWindow" ).GetComponent<DialogWindow>();
         itemPanel = GameObject.Find( "ItemPanel" ).GetComponent<HorizontalLayoutGroup>();
     }
 
