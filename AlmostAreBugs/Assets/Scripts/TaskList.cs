@@ -11,6 +11,8 @@ public class TaskList : MonoBehaviour
     void Start()
     {
         taskListText = GameObject.Find( "TaskListText" ).GetComponent<TextMeshProUGUI>();
+        strBuilder = new StringBuilder( taskListText.text );
+        AddStrikethrough( 1 );
     }
 
     // Update is called once per frame
@@ -22,10 +24,13 @@ public class TaskList : MonoBehaviour
     private void AddStrikethrough(int line) {
         string[] strarray = strBuilder.ToString().Split( '\n' );
         int len = 0;
+        int len2 = 0;
         int i;
         for( i = 0; i < line; i++ )
             len += strarray[ i ].Length;
-        strBuilder.Insert( len, "<s>" );
-        strBuilder.Insert( len + strarray[ i ].Length, "</s>" );
+        strBuilder.Insert( len+1, "<s>" );
+        len2 = len + 1 + strarray[ i ].Length + "<s>".Length;
+        strBuilder.Insert( len2 , "</s>" );
+        taskListText.text = strBuilder.ToString();
     }
 }

@@ -20,7 +20,7 @@ public class UiManager : MonoBehaviour
         
     }
 
-    public void OpenMessageBox( ItemManager.ItemList item, ItemManager.PresentState presentState ) {
+    public void OpenMessageBox( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
         //MessageBox를 띄움.
     }
     public void MoveLeft() {
@@ -29,5 +29,11 @@ public class UiManager : MonoBehaviour
 
     public void MoveRight() {
 
+    }
+
+    public void AddItem( bool CheckItem, GameObject gObject) {
+        if( !CheckItem ) 
+        gObject.transform.SetParent( itemPanel.transform );
+        else { Destroy( gObject ); }
     }
 }

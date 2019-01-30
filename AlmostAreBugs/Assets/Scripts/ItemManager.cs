@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemManager : MonoBehaviour
 {
     [System.Flags]
-    public enum ItemList { Scissors };
+    public enum ItemList { Empty, Scissors };
     [System.Flags]
     public enum PresentState { Default, Dropped, Gotten, Discarded };
     void Start()

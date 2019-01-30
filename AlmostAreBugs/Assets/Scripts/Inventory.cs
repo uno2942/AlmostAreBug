@@ -12,11 +12,13 @@ public class Inventory : MonoBehaviour
 
     public ItemElement[] ItemsInInventory { get => itemsInInventory; }
 
+    private UiManager uiManager;
     const int MAXITEMNUM = 20;
     // Start is called before the first frame update
     void Start()
     {
         itemsInInventory = new ItemElement[ MAXITEMNUM ];//아이템이 20개 이상이면 그 때 고민해보자.
+        uiManager = GameObject.Find( "UiManager" ).GetComponent<UiManager>();
     }
 
     // Update is called once per frame
@@ -25,7 +27,7 @@ public class Inventory : MonoBehaviour
         
     }
 
-    public bool AddItem(ItemManager.ItemList itemList ) {
+    public void AddItem(ItemManager.ItemList itemList, ItemManager.PresentState presentStat, GameObject gObject ) {
         int i;
         for( i = 0; i < MAXITEMNUM; i++ )
             if( itemList == itemsInInventory[ i ].item )
@@ -35,13 +37,15 @@ public class Inventory : MonoBehaviour
                 if( 0 == itemsInInventory[ i ].num ) {
                     itemsInInventory[ i ].item = itemList;
                     itemsInInventory[ i ].num += 1;
-                    return true;
+                    Debug.Log( "Item Added" );
+                    uiManager.AddItem( false, gObject );
+                    return;
                 }
             }
             throw new System.IndexOutOfRangeException();
         } else {
             itemsInInventory[ i ].num += 1;
-            return true;
+            uiManager.AddItem( true, gObject );
         }
     }
 
