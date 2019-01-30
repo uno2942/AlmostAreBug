@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ScriptWindow : MonoBehaviour {
+using UnityEngine.EventSystems;
+
+public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
     private GameObject scriptWindow;
     private const float DELAYTIME=5.0f;
     private float passedTime=0;
-    private bool IsWriteEventTriggered=true;
+    private bool IsWriteEventTriggered = true;
+    private bool IsMouseOnScriptWIndow = false;
     // Start is called before the first frame update
     void Start() {
         scriptWindow = GameObject.Find( "ScriptWindow" );
@@ -16,6 +19,8 @@ public class ScriptWindow : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if( IsMouseOnScriptWIndow )
+            ScriptWindowOn();
         if( IsWriteEventTriggered ) {
             passedTime += Time.deltaTime;
             if( passedTime > DELAYTIME ) {
@@ -33,23 +38,26 @@ public class ScriptWindow : MonoBehaviour {
             if( str.Split( '\n' ).Length > 1 )
                 throw new System.ArgumentException();
             // '\n'+gameObject의 Text(mesh pro)에 한 줄을 넣는 부분이 들어가야함.
-            IsWriteEventTriggered = true;
-            Color color1 = scriptWindow.GetComponent<Image>().color;
-            color1.a = 1.0f;
-            scriptWindow.GetComponent<Image>().color = color1;
-
-            Color color2 = scriptWindow.GetComponentInChildren<TextMeshProUGUI>().color;
-            color2.a = 1.0f;
-            scriptWindow.GetComponentInChildren<TextMeshProUGUI>().color = color2;
-            passedTime = 0;
+            ScriptWindowOn();
         } catch(System.Exception ex) {
 
             throw;
         }
     }
 
+    public void ScriptWindowOn() {
+        IsWriteEventTriggered = true;
+        Color color1 = scriptWindow.GetComponent<Image>().color;
+        color1.a = 1.0f;
+        scriptWindow.GetComponent<Image>().color = color1;
+
+        Color color2 = scriptWindow.GetComponentInChildren<TextMeshProUGUI>().color;
+        color2.a = 1.0f;
+        scriptWindow.GetComponentInChildren<TextMeshProUGUI>().color = color2;
+        passedTime = 0;
+    }
+
     IEnumerator FadeOut() {
-        Debug.Log( "Entered" );
         Color color1=scriptWindow.GetComponent<Image>().color;
         Color color2= scriptWindow.GetComponentInChildren<TextMeshProUGUI>().color;
         while( color1.a>0f) {
@@ -59,5 +67,12 @@ public class ScriptWindow : MonoBehaviour {
             scriptWindow.GetComponentInChildren<TextMeshProUGUI>().color = color2;
             yield return new WaitForSeconds( 0.02f );
         }
+    }
+
+    public void OnPointerEnter( PointerEventData eventData ) {
+        IsMouseOnScriptWIndow = true;
+    }
+    public void OnPointerExit(PointerEventData eventData ) {
+        IsMouseOnScriptWIndow = false;
     }
 }
