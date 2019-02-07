@@ -1955,6 +1955,21 @@ PrefabInstance:
       propertyPath: item
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7880772068780994476, guid: 2c368c32beb348e43ad608bf124816b8,
+        type: 3}
+      propertyPath: m_inputSource
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880772068780994476, guid: 2c368c32beb348e43ad608bf124816b8,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880772068780994476, guid: 2c368c32beb348e43ad608bf124816b8,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c368c32beb348e43ad608bf124816b8, type: 3}
 --- !u!114 &1946169060 stripped
@@ -2500,6 +2515,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5384881171171244517, guid: 2c368c32beb348e43ad608bf124816b8,
+        type: 3}
+      propertyPath: item
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6029509557433927659, guid: 2c368c32beb348e43ad608bf124816b8,
         type: 3}
       propertyPath: m_Sprite
@@ -2521,9 +2541,19 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1946169060}
-    - target: {fileID: 5384881171171244517, guid: 2c368c32beb348e43ad608bf124816b8,
+    - target: {fileID: 7880772068780994476, guid: 2c368c32beb348e43ad608bf124816b8,
         type: 3}
-      propertyPath: item
+      propertyPath: m_inputSource
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880772068780994476, guid: 2c368c32beb348e43ad608bf124816b8,
+        type: 3}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880772068780994476, guid: 2c368c32beb348e43ad608bf124816b8,
+        type: 3}
+      propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

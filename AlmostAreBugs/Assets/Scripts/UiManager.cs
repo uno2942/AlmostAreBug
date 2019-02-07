@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class UiManager : MonoBehaviour
 {
     private ScriptWindow scriptWindow;
     private HorizontalLayoutGroup itemPanel;
+    private Inventory inventory;
     // Start is called before the first frame update
     void Start()
     {
     //    dialogWindow = GameObject.Find( "DialogWindow" ).GetComponent<DialogWindow>();
         itemPanel = GameObject.Find( "ItemPanel" ).GetComponent<HorizontalLayoutGroup>();
+        inventory=GameObject.Find("Inventory").GetComponent<Inventory>();
     }
 
     // Update is called once per frame
@@ -31,9 +33,15 @@ public class UiManager : MonoBehaviour
 
     }
 
-    public void AddItem( bool CheckItem, GameObject gObject) {
-        if( !CheckItem ) 
-        gObject.transform.SetParent( itemPanel.transform );
-        else { Destroy( gObject ); }
+    public void AddItem( bool CheckItem, ItemManager.ItemList itemList, GameObject gObject) {
+        if( !CheckItem ) {
+            gObject.transform.SetParent( itemPanel.transform );
+            gObject.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        } else {
+            string str = gObject.GetComponentInChildren<TextMeshProUGUI>().text;
+            str = 'x' + ( int.Parse( str.Remove( 0, 1 ).ToString() ) + 1 ).ToString();
+            inventory.CheckItemElement(itemList).gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
+            Destroy( gObject );
+        }
     }
 }

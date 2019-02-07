@@ -7,6 +7,7 @@ public class Inventory : MonoBehaviour
     public struct ItemElement {
         public ItemManager.ItemList item;
         public int num;
+        public GameObject gObject;
     }
     private ItemElement[] itemsInInventory;
 
@@ -37,15 +38,15 @@ public class Inventory : MonoBehaviour
                 if( 0 == itemsInInventory[ i ].num ) {
                     itemsInInventory[ i ].item = itemList;
                     itemsInInventory[ i ].num += 1;
-                    Debug.Log( "Item Added" );
-                    uiManager.AddItem( false, gObject );
+                    ItemsInInventory[ i ].gObject = gObject;
+                    uiManager.AddItem( false, itemList, gObject );
                     return;
                 }
             }
             throw new System.IndexOutOfRangeException();
         } else {
             itemsInInventory[ i ].num += 1;
-            uiManager.AddItem( true, gObject );
+            uiManager.AddItem( true, itemList, gObject );
         }
     }
 
