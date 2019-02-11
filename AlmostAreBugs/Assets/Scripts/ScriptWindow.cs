@@ -11,7 +11,7 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private const float DELAYTIME=5.0f;
     private float passedTime=0;
     private bool IsWriteEventTriggered = true;
-    private bool IsMouseOnScriptWIndow = false;
+    private bool IsMouseOnScriptWindow = false;
     // Start is called before the first frame update
     void Start() {
         scriptWindow = GameObject.Find( "ScriptWindow" );
@@ -19,7 +19,7 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     // Update is called once per frame
     void Update() {
-        if( IsMouseOnScriptWIndow )
+        if( IsMouseOnScriptWindow )
             ScriptWindowOn();
         if( IsWriteEventTriggered ) {
             passedTime += Time.deltaTime;
@@ -70,9 +70,9 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     public void OnPointerEnter( PointerEventData eventData ) {
-        IsMouseOnScriptWIndow = true;
+        IsMouseOnScriptWindow = true;
     }
     public void OnPointerExit(PointerEventData eventData ) {
-        IsMouseOnScriptWIndow = false;
+        IsMouseOnScriptWindow = false;
     }
 }

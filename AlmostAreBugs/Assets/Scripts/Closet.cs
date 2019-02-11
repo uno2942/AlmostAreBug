@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pillow :Item
+public class Closet : MonoBehaviour
 {
     // Start is called before the first frame update
-    protected override void Start()
+    void Start()
     {
         
     }
 
     // Update is called once per frame
-    protected override void Update()
+    void Update()
     {
         
     }
