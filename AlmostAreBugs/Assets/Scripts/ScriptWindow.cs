@@ -8,12 +8,14 @@ using UnityEngine.EventSystems;
 public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
     private GameObject scriptWindow;
+    private Parser jsonparser;
     private const float DELAYTIME=5.0f;
     private float passedTime=0;
     private bool IsWriteEventTriggered = true;
     private bool IsMouseOnScriptWindow = false;
     // Start is called before the first frame update
     void Start() {
+        jsonparser = new Parser();
         scriptWindow = GameObject.Find( "ScriptWindow" );
     }
 
@@ -28,6 +30,9 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 IsWriteEventTriggered = false;
             }
         }
+    }
+    protected void ScriptPrinterForClickItem( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+        
     }
 
     public void WriteALine( string str )

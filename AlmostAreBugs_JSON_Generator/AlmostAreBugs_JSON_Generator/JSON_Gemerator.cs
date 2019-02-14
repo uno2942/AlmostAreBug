@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 namespace AlmostAreBugs_JSON_Generator {
     class JSON_Gemerator {
-        
+       public JSON_Gemerator() {
+            
+        }
     }
 }

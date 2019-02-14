@@ -21,15 +21,14 @@ public class CollectableItem : Item
     }
 
     public override void Clicked() {
+        ClickEventHandlerInvoker( item, presentState, gameObject );
         switch(presentState) {
         case ItemManager.PresentState.Dropped:
             presentState = ItemManager.PresentState.Gotten;
-            ClickEventHandlerInvoker( item, presentState, gameObject );
             ClickEventHandlerReset();
             ClickEvent += uiManager.OpenMessageBox;
             return;
         case ItemManager.PresentState.Gotten:
-            ClickEventHandlerInvoker( item, presentState, gameObject );
             break;
         }        
     }
