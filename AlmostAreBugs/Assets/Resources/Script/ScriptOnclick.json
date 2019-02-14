@@ -1,0 +1,54 @@
+{
+  "Table1": [
+    {
+      "Object": "EmptyBed",
+      "한글명(인게임내 출력X)": "빈 침대",
+      "Object_Onclick": "깔끔한 침대이다. 더 볼 일은 없어 보인다."
+    },
+    {
+      "Object": "LockedDesk",
+      "한글명(인게임내 출력X)": "잠긴 서랍",
+      "Object_Onclick": "잠긴 서랍이다. 열쇠 구멍이 있다."
+    },
+    {
+      "Object": "OpenedDesk",
+      "한글명(인게임내 출력X)": "열린 서랍",
+      "Object_Onclick": "열린 서랍이다. 비어 있다."
+    },
+    {
+      "Object": "CandleStick",
+      "한글명(인게임내 출력X)": "촛대",
+      "Object_Onclick": "양초가 여러 개 꽂혀있는 촛대이다."
+    },
+    {
+      "Object": "FiredCandleStick",
+      "한글명(인게임내 출력X)": "불 붙은 촛대",
+      "Object_Onclick": "불 붙은 성냥을 이용해 촛대에 불을 붙였다."
+    },
+    {
+      "Object": "OffMultitab",
+      "한글명(인게임내 출력X)": "꺼진 멀티탭",
+      "Object_Onclick": "손이 닿지 않는 곳에 있는 멀티탭이다. 플러그는 꽂혀 있지만 스위치는 꺼져 있다."
+    },
+    {
+      "Object": "OnMultitab",
+      "한글명(인게임내 출력X)": "켜진 멀티탭",
+      "Object_Onclick": "스위치를 작동시켜서 멀티탭에 전원이 들어왔다."
+    },
+    {
+      "Object": "OffFax",
+      "한글명(인게임내 출력X)": "꺼진 팩스",
+      "Object_Onclick": "팩시밀리이다. 전원이 나간 것 같다."
+    },
+    {
+      "Object": "OnFax",
+      "한글명(인게임내 출력X)": "켜진 팩스",
+      "Object_Onclick": "전원이 들어온 팩스이다. 빈 종이 한 장을 출력하고는 다시 작동을 멈췄다."
+    },
+    {
+      "Object": "Door",
+      "한글명(인게임내 출력X)": "문",
+      "Object_Onclick": "이 방에서 나갈 수 있는 유일한 통로이다. 당연히 잠겨 있다. 옆에 카드 리더기가 있다."
+    }
+  ]
+}
