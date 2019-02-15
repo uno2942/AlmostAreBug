@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
@@ -31,10 +32,24 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             }
         }
     }
-    protected void ScriptPrinterForClickItem( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
-        
+    public void ScriptPrinterForClickItem( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+        Debug.Log( item.ToString() );
+        foreach( var srpt in jsonparser.loadedDataForScriptOnclicks.ScriptOnclick ) {
+            if( srpt.target == item.ToString() ) {
+                Write( srpt.objectOnclick );
+                break;
+            }
+        }
     }
 
+    public void Write(string str ) {
+
+        scriptWindow.GetComponentInChildren<TextMeshProUGUI>().text += str;
+        /*foreach(var strLine in str.Split('\n')) {
+            WriteALine(strLine)
+        }
+        */
+    }
     public void WriteALine( string str )
     {
         try {

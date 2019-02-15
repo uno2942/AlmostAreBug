@@ -15,6 +15,7 @@ public class Item : MonoBehaviour
     {
         presentState = ItemManager.PresentState.Default;
         uiManager = GameObject.Find( "UiManager" ).GetComponent<UiManager>();
+        ClickEvent += GameObject.Find( "ScriptWindow" ).GetComponent<ScriptWindow>().ScriptPrinterForClickItem;
         //ClickEvent에 Subscriber를 붙여줍시다.
     }
 
@@ -37,5 +38,6 @@ public class Item : MonoBehaviour
 
     protected void ClickEventHandlerReset() {
         ClickEvent = null;
+        ClickEvent += GameObject.Find( "ScriptWindow" ).GetComponent<ScriptWindow>().ScriptPrinterForClickItem;
     }
 }

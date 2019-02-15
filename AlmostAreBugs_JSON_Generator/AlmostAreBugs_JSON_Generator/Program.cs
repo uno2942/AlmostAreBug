@@ -29,6 +29,7 @@ namespace AlmostAreBugs_JSON_Generator {
                     Columns[ i ] = new DataColumn( Script[ 0 ][ i ] );
                     table.Columns.Add( Columns[ i ] );
                 }
+                table.TableName = csvReader.fileList[j];
                 dataSet.Tables.Add( table );
                 int catnum = Script[ 0 ].Count;
                 Script.RemoveAt( 0 );

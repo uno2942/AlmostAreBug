@@ -1,4 +1,4 @@
-﻿Object,한글명(인게임내 출력X),Object_Onclick
+﻿target,hangulName,objectOnclick
 EmptyBed,빈 침대,깔끔한 침대이다. 더 볼 일은 없어 보인다.
 LockedDesk,잠긴 서랍,잠긴 서랍이다. 열쇠 구멍이 있다.
 OpenedDesk,열린 서랍,열린 서랍이다. 비어 있다.

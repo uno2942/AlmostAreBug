@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private Parser parser;
     private BoardManager boardManager;
     private ScriptWindow scriptWIndow;
     private UiManager uiManager;
@@ -15,7 +14,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        parser = new Parser();
         boardManager = GameObject.Find( "BoardManager" ).GetComponent<BoardManager>();
         uiManager = GameObject.Find( "UiManager" ).GetComponent<UiManager>();
         bugManager = GameObject.Find( "BugManager" ).GetComponent<BugManager>();
