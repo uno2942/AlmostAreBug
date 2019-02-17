@@ -5,12 +5,38 @@ using System.Text;
 using TMPro;
 public class TaskList : MonoBehaviour
 {
+    private static TaskList taskList;
+    private static bool mShuttingDown = false;
+    private static object mLock = new object();
+
     private StringBuilder strBuilder;
     private TextMeshProUGUI taskListText;
+
+    public static TaskList TaskListInstance
+    {
+        get
+        {
+            if( mShuttingDown ) {
+                Debug.LogWarning( "TaskList is already destroyed." );
+                return null;
+            }
+            lock( mLock ) {
+                if( taskList == null ) {
+                    taskList = (TaskList) FindObjectOfType<TaskList>();
+                    if( taskList == null ) {
+                        Debug.LogWarning( "TaskList gameObject does not exists." );
+                        return null;
+                    }
+                }
+                return taskList;
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        taskListText = GameObject.Find( "TaskListText" ).GetComponent<TextMeshProUGUI>();
+        taskListText = TaskListInstance.GetComponentInChildren<TextMeshProUGUI>();
         strBuilder = new StringBuilder( taskListText.text );
         AddStrikethrough( 1 );
     }
@@ -32,5 +58,14 @@ public class TaskList : MonoBehaviour
         len2 = len + 1 + strarray[ i ].Length + "<s>".Length;
         strBuilder.Insert( len2 , "</s>" );
         taskListText.text = strBuilder.ToString();
+    }
+
+    private void OnApplicationQuit() {
+        mShuttingDown = true;
+    }
+
+
+    private void OnDestroy() {
+        mShuttingDown = true;
     }
 }

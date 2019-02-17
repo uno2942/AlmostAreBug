@@ -9,13 +9,11 @@ public class Item : MonoBehaviour
     public ItemManager.ItemList item;
     public delegate void ClickEventHandler( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject );
     public event ClickEventHandler ClickEvent;
-    protected UiManager uiManager;
     // Start is called before the first frame update
     protected virtual void Start() 
     {
         presentState = ItemManager.PresentState.Default;
-        uiManager = GameObject.Find( "UiManager" ).GetComponent<UiManager>();
-        ClickEvent += GameObject.Find( "ScriptWindow" ).GetComponent<ScriptWindow>().ScriptPrinterForClickItem;
+        ClickEvent += ScriptWindow.ScriptWindowInstance.ScriptPrinterForClickItem;
         //ClickEvent에 Subscriber를 붙여줍시다.
     }
 
@@ -38,6 +36,6 @@ public class Item : MonoBehaviour
 
     protected void ClickEventHandlerReset() {
         ClickEvent = null;
-        ClickEvent += GameObject.Find( "ScriptWindow" ).GetComponent<ScriptWindow>().ScriptPrinterForClickItem;
+        ClickEvent += ScriptWindow.ScriptWindowInstance.ScriptPrinterForClickItem;
     }
 }

@@ -4,9 +4,27 @@ using UnityEngine;
 using System.IO;
 [System.Serializable]
 public class Parser {
+
+    private static Parser parser;
+    private static readonly object padlock = new object();
+
     private readonly string[] fileNames = new string[] { @"ItemScript.json", @"ScriptOnclick.json" };
     public readonly ItemScripts loadedDataForItemScripts;
     public readonly ScriptOnclicks loadedDataForScriptOnclicks;
+
+    public static Parser ParserInstance
+    {
+        get
+        {
+            lock( padlock ) {
+                if( parser == null ) {
+                    parser = new Parser();
+                }
+                return parser;
+            }
+        }
+    }
+
     public Parser() {
         foreach( var fileName in fileNames ) {
             string filePath = Path.Combine( Application.streamingAssetsPath, fileName );

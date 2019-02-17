@@ -4,7 +4,32 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    private static BoardManager boardManager;
+    private static bool mShuttingDown = false;
+    private static object mLock = new object();
+
     private GameObject mainCamera;
+
+    public static BoardManager BoardManagerInstance {
+        get
+        {
+            if( mShuttingDown ) {
+                Debug.LogWarning( "BoardManager is already destroyed." );
+                return null;
+            }
+            lock( mLock ) {
+                if( boardManager == null ) {
+                    boardManager = (BoardManager) FindObjectOfType<BoardManager>();
+                    if( boardManager == null ) {
+                        Debug.LogWarning( "BoardManager gameObject does not exists." );
+                        return null;
+                    }
+                }
+                return boardManager;
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,5 +40,14 @@ public class BoardManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnApplicationQuit() {
+        mShuttingDown = true;
+    }
+
+
+    private void OnDestroy() {
+        mShuttingDown = true;
     }
 }

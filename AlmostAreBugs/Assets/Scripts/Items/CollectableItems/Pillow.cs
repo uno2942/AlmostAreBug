@@ -23,22 +23,17 @@ public class Pillow :CollectableItem
 
 
     //아이템을 인벤토리에 넣은 이후의 events
+
     public override void Clicked() {
-        base.Clicked();
-    }
-
-    //3rd button
-    public override void Discard() {
-        GameObject.Find( "UiManager" ).GetComponent<UiManager>().CloseMessageBox( item, presentState, gameObject );
-    }
-
-    //2nd button
-    public override void Mix() {
-        GameObject.Find( "UiManager" ).GetComponent<UiManager>().CloseMessageBox( item, presentState, gameObject );
-    }
-
-    //1st button
-    public override void Use() {
-        GameObject.Find( "UiManager" ).GetComponent<UiManager>().CloseMessageBox( item, presentState, gameObject );
+        ClickEventHandlerInvoker( item, presentState, gameObject );
+        switch( presentState ) {
+        case ItemManager.PresentState.Dropped:
+            presentState = ItemManager.PresentState.Gotten;
+            ClickEventHandlerReset();
+            ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
+            return;
+        case ItemManager.PresentState.Gotten:
+            break;
+        }
     }
 }

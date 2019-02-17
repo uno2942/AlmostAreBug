@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
-{
+public class Door : Item {
     private bool isOpened;
 
     public bool IsOpened { get => isOpened;}
@@ -20,7 +19,7 @@ public class Door : MonoBehaviour
         
     }
 
-    public void ClickEvent() {
+    public override void Clicked() {
         if(isOpened) {
             //OpenEvent
             gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/OpenedDoor" );

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    private static Inventory inventory;
+    private static bool mShuttingDown = false;
+    private static object mLock = new object();
+
     public struct ItemElement {
         public ItemManager.ItemList item;
         public int num;
@@ -13,13 +17,31 @@ public class Inventory : MonoBehaviour
 
     public ItemElement[] ItemsInInventory { get => itemsInInventory; }
 
-    private UiManager uiManager;
+    public static Inventory InventoryInstance {
+        get
+        {
+            if(mShuttingDown) {
+                Debug.LogWarning( "Inventory is already destroyed." );
+                return null;
+            }
+            lock( mLock ) {
+                if(inventory==null) {
+                    inventory = (Inventory) FindObjectOfType<Inventory>();
+                    if(inventory==null) {
+                        Debug.LogWarning( "Inventory gameObject does not exists." );
+                        return null;
+                    }
+                }
+                return inventory;
+            }
+        }
+    }
+    
     const int MAXITEMNUM = 20;
     // Start is called before the first frame update
     void Start()
     {
         itemsInInventory = new ItemElement[ MAXITEMNUM ];//아이템이 20개 이상이면 그 때 고민해보자.
-        uiManager = GameObject.Find( "UiManager" ).GetComponent<UiManager>();
     }
 
     // Update is called once per frame
@@ -39,14 +61,14 @@ public class Inventory : MonoBehaviour
                     itemsInInventory[ i ].item = itemList;
                     itemsInInventory[ i ].num += 1;
                     ItemsInInventory[ i ].gObject = gObject;
-                    uiManager.AddItem( false, itemList, gObject );
+                    UiManager.UiManagerInstance.AddItem( false, itemList, gObject );
                     return;
                 }
             }
             throw new System.IndexOutOfRangeException();
         } else {
             itemsInInventory[ i ].num += 1;
-            uiManager.AddItem( true, itemList, gObject );
+            UiManager.UiManagerInstance.AddItem( true, itemList, gObject );
         }
     }
 
@@ -83,4 +105,14 @@ public class Inventory : MonoBehaviour
         else
             return true;
     }
+
+    private void OnApplicationQuit() {
+        mShuttingDown = true;
+    }
+
+
+    private void OnDestroy() {
+        mShuttingDown = true;
+    }
+
 }

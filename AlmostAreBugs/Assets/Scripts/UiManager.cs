@@ -5,17 +5,39 @@ using UnityEngine.UI;
 using TMPro;
 public class UiManager : MonoBehaviour
 {
-    private ScriptWindow scriptWindow;
+    private static UiManager uiManager;
+    private static bool mShuttingDown = false;
+    private static object mLock = new object();
+
     private HorizontalLayoutGroup itemPanel;
-    private Inventory inventory;
     private GameObject select;
     private bool isSelectBoxOn;
+
+    public static UiManager UiManagerInstance {
+        get
+        {
+            if( mShuttingDown ) {
+                Debug.LogWarning( "UiManager is already destroyed." );
+                return null;
+            }
+            lock( mLock ) {
+                if( uiManager == null ) {
+                    uiManager = (UiManager) FindObjectOfType<UiManager>();
+                    if( uiManager == null ) {
+                        Debug.LogWarning( "UiManager gameObject does not exists." );
+                        return null;
+                    }
+                }
+                return uiManager;
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
     //    dialogWindow = GameObject.Find( "DialogWindow" ).GetComponent<DialogWindow>();
         itemPanel = GameObject.Find( "ItemPanel" ).GetComponent<HorizontalLayoutGroup>();
-        inventory=GameObject.Find("Inventory").GetComponent<Inventory>();
         select = GameObject.Find( "select" );
         isSelectBoxOn = false;
     }
@@ -59,8 +81,17 @@ public class UiManager : MonoBehaviour
         } else {
             string str = gObject.GetComponentInChildren<TextMeshProUGUI>().text;
             str = 'x' + ( int.Parse( str.Remove( 0, 1 ).ToString() ) + 1 ).ToString();
-            inventory.CheckItemElement( itemList ).gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
+            Inventory.InventoryInstance.CheckItemElement( itemList ).gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
             Destroy( gObject );
         }
+    }
+
+    private void OnApplicationQuit() {
+        mShuttingDown = true;
+    }
+
+
+    private void OnDestroy() {
+        mShuttingDown = true;
     }
 }

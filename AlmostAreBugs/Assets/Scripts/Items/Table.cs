@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Closet : MonoBehaviour
-{
+public class Table : Item {
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +13,7 @@ public class Closet : MonoBehaviour
     void Update()
     {
         
+    }
+    public override void Clicked() {
     }
 }

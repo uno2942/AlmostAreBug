@@ -8,16 +8,38 @@ using System.Linq;
 
 public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
-    private GameObject scriptWindow;
-    private Parser jsonparser;
+    private static ScriptWindow scriptWindow;
+    private static bool mShuttingDown = false;
+    private static object mLock = new object();
+    
     private const float DELAYTIME=5.0f;
     private float passedTime=0;
     private bool IsWriteEventTriggered = true;
     private bool IsMouseOnScriptWindow = false;
+
+    public static ScriptWindow ScriptWindowInstance
+    {
+        get
+        {
+            if( mShuttingDown ) {
+                Debug.LogWarning( "ScriptWindow is already destroyed." );
+                return null;
+            }
+            lock( mLock ) {
+                if( scriptWindow == null ) {
+                    scriptWindow = (ScriptWindow) FindObjectOfType<ScriptWindow>();
+                    if( scriptWindow == null ) {
+                        Debug.LogWarning( "ScriptWindow gameObject does not exists." );
+                        return null;
+                    }
+                }
+                return scriptWindow;
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start() {
-        jsonparser = new Parser();
-        scriptWindow = GameObject.Find( "ScriptWindow" );
     }
 
     // Update is called once per frame
@@ -34,7 +56,7 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     public void ScriptPrinterForClickItem( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
         Debug.Log( item.ToString() );
-        foreach( var srpt in jsonparser.loadedDataForScriptOnclicks.ScriptOnclick ) {
+        foreach( var srpt in Parser.ParserInstance.loadedDataForScriptOnclicks.ScriptOnclick ) {
             if( srpt.target == item.ToString() ) {
                 Write( srpt.objectOnclick );
                 break;
@@ -94,5 +116,14 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     public void OnPointerExit(PointerEventData eventData ) {
         IsMouseOnScriptWindow = false;
+    }
+
+    private void OnApplicationQuit() {
+        mShuttingDown = true;
+    }
+
+
+    private void OnDestroy() {
+        mShuttingDown = true;
     }
 }
