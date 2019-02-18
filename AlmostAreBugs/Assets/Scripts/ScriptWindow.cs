@@ -55,7 +55,6 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
     public void ScriptPrinterForClickItem( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
-        Debug.Log( item.ToString() );
         foreach( var srpt in Parser.ParserInstance.loadedDataForScriptOnclicks.ScriptOnclick ) {
             if( srpt.target == item.ToString() ) {
                 Write( srpt.objectOnclick );
@@ -74,17 +73,12 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
     public void WriteALine( string str )
     {
-        try {
-            if( str == null )
-                throw new System.ArgumentNullException();
-            if( str.Split( '\n' ).Length > 1 )
-                throw new System.ArgumentException();
+        if( str == null )
+            Debug.LogError( "string is null" );
+        if( str.Split( '\n' ).Length > 1 )
+            Debug.LogError( "string is over one line" );
             // '\n'+gameObject의 Text(mesh pro)에 한 줄을 넣는 부분이 들어가야함.
             ScriptWindowOn();
-        } catch(System.Exception ex) {
-
-            throw;
-        }
     }
 
     public void ScriptWindowOn() {

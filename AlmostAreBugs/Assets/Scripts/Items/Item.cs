@@ -27,14 +27,19 @@ public class Item : MonoBehaviour
         ClickEventHandlerInvoker( item, presentState, gameObject );
     }
     public virtual void ImageChange( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject) {
-        gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/KafuuChino" );
     }
 
-    protected void ClickEventHandlerInvoker( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+    protected bool ClickEventHandlerInvoker( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+        if( GameManager.GameManagerInstance.IsWating ) {
+            if( presentState == ItemManager.PresentState.Gotten )
+                GameManager.GameManagerInstance.CollectableItemChecked( item, presentState, gameObject );
+        return false;    
+        }
         ClickEvent?.Invoke( item, presentState, gObject );
+        return true;
     }
 
-    protected void ClickEventHandlerReset() {
+    protected virtual void ClickEventHandlerReset() {
         ClickEvent = null;
         ClickEvent += ScriptWindow.ScriptWindowInstance.ScriptPrinterForClickItem;
     }

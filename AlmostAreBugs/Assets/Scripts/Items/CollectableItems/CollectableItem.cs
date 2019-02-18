@@ -8,8 +8,6 @@ public class CollectableItem : Item
     protected override void Start() {
         base.Start();
         presentState = ItemManager.PresentState.Dropped;
-        ClickEvent += ImageChange;
-        ClickEvent += Inventory.InventoryInstance.AddItem;
         
         //ClickEvent에 Subscriber를 붙여줍시다.
     }
@@ -33,7 +31,13 @@ public class CollectableItem : Item
     }
 
     public virtual void Use() {
+        Debug.Log( "1" );
         UiManager.UiManagerInstance.CloseMessageBox( item, presentState, gameObject );
     }
 
+    protected override void ClickEventHandlerReset() {
+        base.ClickEventHandlerReset();
+        if( presentState == ItemManager.PresentState.Gotten )
+            ClickEvent += GameManager.GameManagerInstance.CollectableItemChecked;
+    }
 }

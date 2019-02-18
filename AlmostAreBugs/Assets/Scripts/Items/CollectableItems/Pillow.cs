@@ -8,6 +8,8 @@ public class Pillow :CollectableItem
     protected override void Start()
     {
         base.Start();
+        ClickEvent += Inventory.InventoryInstance.AddItem;
+        ClickEvent += ImageChange;
     }
 
     // Update is called once per frame
@@ -18,22 +20,27 @@ public class Pillow :CollectableItem
     
     //아이템을 줍기 이전의 event
     public override void ImageChange( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
-
+        gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/pillow_inventory" );
     }
 
 
     //아이템을 인벤토리에 넣은 이후의 events
 
     public override void Clicked() {
-        ClickEventHandlerInvoker( item, presentState, gameObject );
-        switch( presentState ) {
-        case ItemManager.PresentState.Dropped:
-            presentState = ItemManager.PresentState.Gotten;
-            ClickEventHandlerReset();
-            ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
-            return;
-        case ItemManager.PresentState.Gotten:
-            break;
+        if( ClickEventHandlerInvoker( item, presentState, gameObject ) ) {
+            switch( presentState ) {
+            case ItemManager.PresentState.Dropped:
+                presentState = ItemManager.PresentState.Gotten;
+                ClickEventHandlerReset();
+                ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
+                return;
+            case ItemManager.PresentState.Gotten:
+                break;
+            }
         }
+    }
+
+    public override void Use() {
+        base.Use();
     }
 }

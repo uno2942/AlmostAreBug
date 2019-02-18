@@ -13,6 +13,7 @@ public class UiManager : MonoBehaviour
     private GameObject select;
     private bool isSelectBoxOn;
 
+    private Button[] buttons;
     public static UiManager UiManagerInstance {
         get
         {
@@ -39,6 +40,7 @@ public class UiManager : MonoBehaviour
     //    dialogWindow = GameObject.Find( "DialogWindow" ).GetComponent<DialogWindow>();
         itemPanel = GameObject.Find( "ItemPanel" ).GetComponent<HorizontalLayoutGroup>();
         select = GameObject.Find( "select" );
+        select.SetActive( false );
         isSelectBoxOn = false;
     }
 
@@ -52,6 +54,14 @@ public class UiManager : MonoBehaviour
         if( !isSelectBoxOn ) {
             isSelectBoxOn = true;
             select.SetActive( true );
+            buttons = select.GetComponentsInChildren<Button>();
+            //temporary code
+            buttons[ 0 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Use );
+            buttons[ 1 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Mix );
+            buttons[ 2 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Discard );
+            foreach( var button in buttons )
+                button.onClick.AddListener( GameManager.GameManagerInstance.CollectableItemSelected );
+            GameManager.GameManagerInstance.WaitForSelect();
         }
     }
 
@@ -59,6 +69,8 @@ public class UiManager : MonoBehaviour
         if( isSelectBoxOn ) {
             isSelectBoxOn = false;
             select.SetActive( false );
+            foreach( var button in buttons )
+                button.onClick.RemoveAllListeners();
         }
     }
         public void MoveLeft() {
@@ -70,16 +82,17 @@ public class UiManager : MonoBehaviour
     }
 
     public void AddItem( bool CheckItem, ItemManager.ItemList itemList, GameObject gObject ) {
+        if( ItemManager.ItemList.Pillow == itemList ) {
+            GameObject instantiatedGameObject;
+            instantiatedGameObject = Instantiate( gObject, GameObject.Find( "Canvas" ).transform );
+            instantiatedGameObject.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        }
+
         if( !CheckItem ) {
-            if(ItemManager.ItemList.Pillow==itemList) {
-                Instantiate( gObject, GameObject.Find("Canvas").transform );
-                gObject.transform.SetParent( itemPanel.transform );
-                gObject.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
-            }
             gObject.transform.SetParent( itemPanel.transform );
             gObject.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
         } else {
-            string str = gObject.GetComponentInChildren<TextMeshProUGUI>().text;
+            string str = Inventory.InventoryInstance.CheckItemElement( itemList ).gObject.GetComponentInChildren<TextMeshProUGUI>().text;
             str = 'x' + ( int.Parse( str.Remove( 0, 1 ).ToString() ) + 1 ).ToString();
             Inventory.InventoryInstance.CheckItemElement( itemList ).gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
             Destroy( gObject );

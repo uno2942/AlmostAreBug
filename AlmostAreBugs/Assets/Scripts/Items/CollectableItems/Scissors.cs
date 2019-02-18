@@ -4,27 +4,38 @@ using UnityEngine;
 
 public class Scissors : CollectableItem {
     // Start is called before the first frame update
-    void Start()
-    {
-        
+    protected override void Start() {
+        base.Start();
+        ClickEvent += Inventory.InventoryInstance.AddItem;
+        ClickEvent += ImageChange;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         
     }
+    public override void ImageChange( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+        gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/sissor_inventory" );
+    }
 
     public override void Clicked() {
-        ClickEventHandlerInvoker( item, presentState, gameObject );
-        switch( presentState ) {
-        case ItemManager.PresentState.Dropped:
-            presentState = ItemManager.PresentState.Gotten;
-            ClickEventHandlerReset();
-            ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
-            return;
-        case ItemManager.PresentState.Gotten:
-            break;
+        if( ClickEventHandlerInvoker( item, presentState, gameObject ) ) {
+            switch( presentState ) {
+            case ItemManager.PresentState.Dropped:
+                presentState = ItemManager.PresentState.Gotten;
+                ClickEventHandlerReset();
+                ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
+                return;
+            case ItemManager.PresentState.Gotten:
+                break;
+            }
         }
+    }
+
+    public override void Use() {
+        base.Use();
+        Debug.Log( "2" );
+        GameManager.GameManagerInstance.WaitForAnotherItem();
     }
 }

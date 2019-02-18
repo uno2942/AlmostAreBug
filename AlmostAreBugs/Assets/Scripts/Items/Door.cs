@@ -8,13 +8,13 @@ public class Door : Item {
     public bool IsOpened { get => isOpened;}
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         isOpened = false;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         
     }
