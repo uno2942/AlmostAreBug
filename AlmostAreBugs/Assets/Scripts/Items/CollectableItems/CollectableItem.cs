@@ -28,6 +28,7 @@ public class CollectableItem : Item
 
     public virtual void Mix() {
         UiManager.UiManagerInstance.GetComponent<UiManager>().CloseMessageBox( item, presentState, gameObject );
+        ItemManager.ItemManagerInstance.PutItemForMix1( item );
     }
 
     public virtual void Use() {

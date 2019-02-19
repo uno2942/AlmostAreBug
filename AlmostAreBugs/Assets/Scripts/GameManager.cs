@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitWhile( () => ( isSelected == false ) );
         isSelected = false;
         isWating = false;
-        //조합 코드
     }
 
     public void WaitForAnotherItem() {
@@ -72,6 +71,8 @@ public class GameManager : MonoBehaviour
     IEnumerator WaitForAnotherItemCoroutine() {
         Debug.Log( item );
         yield return new WaitWhile( () => (item == ItemManager.ItemList.Empty && isCanceled == false) );
+        if( !isCanceled )
+            ItemManager.ItemManagerInstance.PutItemForMix2AndMix( item );
         item = ItemManager.ItemList.Empty;
         isCanceled = false;
         isWating = false;
