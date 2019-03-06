@@ -11,7 +11,10 @@ public class GameManager : MonoBehaviour
     private ItemManager.ItemList item = ItemManager.ItemList.Empty;
     private bool isCanceled = false;
     private bool isSelected = false;
-    private bool isWating = false;
+    private bool isWatingForSelect = false;
+    private bool isWatingForAnotherItem = false;
+    private GameObject clickedGameObject = null;
+
     public static GameManager GameManagerInstance {
         get
         {
@@ -32,7 +35,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool IsWating { get => isWating; }
+    public bool IsWating { get => isWatingForSelect || isWatingForAnotherItem; }
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +53,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void WaitForSelect() {
-        isWating = true;
+        isWatingForSelect = true;
         isSelected = false;
         StartCoroutine( WaitForSelectCoroutine() );
     }
@@ -58,30 +61,31 @@ public class GameManager : MonoBehaviour
     IEnumerator WaitForSelectCoroutine() {
         yield return new WaitWhile( () => ( isSelected == false ) );
         isSelected = false;
-        isWating = false;
+        isWatingForSelect = false;
+        Debug.Log( "Coroutine End" );
     }
 
     public void WaitForAnotherItem() {
-        isWating = true;
+        isWatingForAnotherItem = true;
         item = ItemManager.ItemList.Empty;
         isCanceled = false;
         StartCoroutine( WaitForAnotherItemCoroutine() );
     }
 
     IEnumerator WaitForAnotherItemCoroutine() {
-        Debug.Log( item );
         yield return new WaitWhile( () => (item == ItemManager.ItemList.Empty && isCanceled == false) );
         if( !isCanceled )
-            ItemManager.ItemManagerInstance.PutItemForMix2AndMix( item );
+            ItemManager.ItemManagerInstance.PutItemForMix2AndMix( item, clickedGameObject );
         item = ItemManager.ItemList.Empty;
         isCanceled = false;
-        isWating = false;
-        Debug.Log( item );
+        isWatingForAnotherItem = false;
+        Debug.Log( "Coroutine End" );
         //조합 코드
     }
 
     public void CollectableItemChecked( ItemManager.ItemList _item, ItemManager.PresentState presentState, GameObject gObject ) {
         this.item = _item;
+        clickedGameObject = gObject;
     }
 
     public void CollectableItemSelected(  ) {

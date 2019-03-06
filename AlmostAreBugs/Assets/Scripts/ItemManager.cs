@@ -13,7 +13,7 @@ public class ItemManager : MonoBehaviour
 
     public GameObject[] prefabs;
     private Dictionary<string, GameObject> dicForPrefabs;
-
+    private GameObject gObject1;
     public static ItemManager ItemManagerInstance
     {
         get
@@ -57,16 +57,17 @@ public class ItemManager : MonoBehaviour
         
     }
 
-    public void PutItemForMix1( ItemManager.ItemList item ) {
+    public void PutItemForMix1( ItemManager.ItemList item, GameObject gObject ) {
         itemForMix1 = item;
+        gObject1 = gObject;
     }
 
-    public void PutItemForMix2AndMix( ItemManager.ItemList item ) {
+    public void PutItemForMix2AndMix( ItemManager.ItemList item, GameObject gObject2 ) {
         itemForMix2 = item;
         var mixResult = MixResult( itemForMix1, itemForMix2 );
         if( mixResult[ 0 ] != ItemList.Empty ) {
-            Inventory.InventoryInstance.RemoveItem( itemForMix1 );
-            Inventory.InventoryInstance.RemoveItem( itemForMix2 );
+            Inventory.InventoryInstance.RemoveItem( itemForMix1, gObject1 );
+            Inventory.InventoryInstance.RemoveItem( itemForMix2, gObject2 );
             foreach( var mixitem in mixResult ) {
                 Inventory.InventoryInstance.AddItem( mixitem, PresentState.Gotten, Instantiate( dicForPrefabs[ mixitem.ToString() ] ));
             }
@@ -75,7 +76,7 @@ public class ItemManager : MonoBehaviour
     }
 
     public ItemList[] MixResult(ItemList item1, ItemList item2 ) {
-        if( ( item1 == ItemList.Quilt && item2 == ItemList.Scissors ) || ( item1 == ItemList.Quilt && item2 == ItemList.Scissors ) )
+        if( ( item1 == ItemList.Quilt && item2 == ItemList.Scissors ) || ( item1 == ItemList.Scissors && item2 == ItemList.Quilt ) )
             return new ItemList[] { ItemList.DeskKey };
         else if( ( item1 == ItemList.EmptyPaper && item2 == ItemList.Scissors ) || ( item1 == ItemList.Scissors && item2 == ItemList.EmptyPaper ) )
             return new ItemList[] { ItemList.CuttenPaperUp, ItemList.CuttenPaperDown };

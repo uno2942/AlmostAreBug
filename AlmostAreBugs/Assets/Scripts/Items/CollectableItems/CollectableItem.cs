@@ -24,11 +24,13 @@ public class CollectableItem : Item
 
     public virtual void Discard() {
         UiManager.UiManagerInstance.GetComponent<UiManager>().CloseMessageBox( item, presentState, gameObject );
+        Inventory.InventoryInstance.RemoveItem( item, gameObject );
     }
 
     public virtual void Mix() {
         UiManager.UiManagerInstance.GetComponent<UiManager>().CloseMessageBox( item, presentState, gameObject );
-        ItemManager.ItemManagerInstance.PutItemForMix1( item );
+        ItemManager.ItemManagerInstance.PutItemForMix1( item, gameObject );
+        GameManager.GameManagerInstance.WaitForAnotherItem();
     }
 
     public virtual void Use() {
@@ -39,6 +41,6 @@ public class CollectableItem : Item
     protected override void ClickEventHandlerReset() {
         base.ClickEventHandlerReset();
         if( presentState == ItemManager.PresentState.Gotten )
-            ClickEvent += GameManager.GameManagerInstance.CollectableItemChecked;
+            ClickEvent += GameManager.GameManagerInstance.CollectableItemChecked; //GameManager에서 필요로 하고 있는지 체크함.
     }
 }

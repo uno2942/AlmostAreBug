@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
     protected virtual void Start() 
     {
         presentState = ItemManager.PresentState.Default;
-        ClickEvent += ScriptWindow.ScriptWindowInstance.ScriptPrinterForClickItem;
+        ClickEventHandlerReset();
         //ClickEvent에 Subscriber를 붙여줍시다.
     }
 

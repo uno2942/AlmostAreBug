@@ -72,7 +72,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool RemoveItem( ItemManager.ItemList itemList ) {
+    public bool RemoveItem( ItemManager.ItemList itemList, GameObject gObject ) {
         int i;
         for( i = 0; i < MAXITEMNUM; i++ )
             if( itemList == itemsInInventory[ i ].item )
@@ -82,12 +82,18 @@ public class Inventory : MonoBehaviour
         } else {
             itemsInInventory[ i ].num -= 1;
             if( itemsInInventory[ i ].num == 0 ) {
-                itemsInInventory[ i ].item = 0;
+                CleanitemsInInveotory( i );
             }
+            UiManager.UiManagerInstance.RemoveItem( itemList, gObject );
             return true;
         }
     }
 
+    private void CleanitemsInInveotory(int i ) {
+        itemsInInventory[ i ].item = 0;
+        itemsInInventory[ i ].gObject = null;
+        itemsInInventory[ i ].num = 0;
+    }
     public ItemElement CheckItemElement( ItemManager.ItemList itemList ) {
         int i;
         for( i = 0; i < MAXITEMNUM; i++ )

@@ -99,6 +99,18 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    public void RemoveItem( ItemManager.ItemList itemList, GameObject gObject ) {
+        string str = gObject.GetComponentInChildren<TextMeshProUGUI>().text;
+        if( int.Parse( str.Remove( 0, 1 ).ToString() ) == 1 ) {
+            str = "x0";
+            gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
+            Destroy( gObject );
+        } else {
+            str = 'x' + ( int.Parse( str.Remove( 0, 1 ).ToString() ) - 1 ).ToString();
+            gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
+        }
+    }
+
     private void OnApplicationQuit() {
         mShuttingDown = true;
     }
