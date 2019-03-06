@@ -41,6 +41,6 @@ public class CollectableItem : Item
     protected override void ClickEventHandlerReset() {
         base.ClickEventHandlerReset();
         if( presentState == ItemManager.PresentState.Gotten )
-            ClickEvent += GameManager.GameManagerInstance.CollectableItemChecked; //GameManager에서 필요로 하고 있는지 체크함.
+            ClickEvent += GameManager.GameManagerInstance.ItemChecked; //GameManager에서 필요로 하고 있는지 체크함.
     }
 }

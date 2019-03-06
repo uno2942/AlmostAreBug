@@ -32,7 +32,7 @@ public class Item : MonoBehaviour
     protected bool ClickEventHandlerInvoker( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
         if( GameManager.GameManagerInstance.IsWating ) {
             if( presentState == ItemManager.PresentState.Gotten )
-                GameManager.GameManagerInstance.CollectableItemChecked( item, presentState, gameObject );
+                GameManager.GameManagerInstance.ItemChecked( item, presentState, gameObject );
         return false;    
         }
         ClickEvent?.Invoke( item, presentState, gObject );

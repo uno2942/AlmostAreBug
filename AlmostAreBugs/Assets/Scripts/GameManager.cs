@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private ItemManager.ItemList item = ItemManager.ItemList.Empty;
     private bool isCanceled = false;
-    private bool isSelected = false;
+    private bool isButtonSelected = false;
     private bool isWatingForSelect = false;
     private bool isWatingForAnotherItem = false;
     private GameObject clickedGameObject = null;
@@ -52,15 +52,15 @@ public class GameManager : MonoBehaviour
             TaskList.TaskListInstance.gameObject.SetActive( false );
     }
 
-    public void WaitForSelect() {
+    public void WaitForButtonSelect() {
         isWatingForSelect = true;
-        isSelected = false;
-        StartCoroutine( WaitForSelectCoroutine() );
+        isButtonSelected = false;
+        StartCoroutine( WaitForButtonSelectCoroutine() );
     }
 
-    IEnumerator WaitForSelectCoroutine() {
-        yield return new WaitWhile( () => ( isSelected == false ) );
-        isSelected = false;
+    IEnumerator WaitForButtonSelectCoroutine() {
+        yield return new WaitWhile( () => ( isButtonSelected == false ) );
+        isButtonSelected = false;
         isWatingForSelect = false;
         Debug.Log( "Coroutine End" );
     }
@@ -83,13 +83,13 @@ public class GameManager : MonoBehaviour
         //조합 코드
     }
 
-    public void CollectableItemChecked( ItemManager.ItemList _item, ItemManager.PresentState presentState, GameObject gObject ) {
+    public void ItemChecked( ItemManager.ItemList _item, ItemManager.PresentState presentState, GameObject gObject ) {
         this.item = _item;
         clickedGameObject = gObject;
     }
 
-    public void CollectableItemSelected(  ) {
-        isSelected = true;
+    public void ButtonSelected(  ) {
+        isButtonSelected = true;
     }
 
     private void OnApplicationQuit() {

@@ -60,8 +60,8 @@ public class UiManager : MonoBehaviour
             buttons[ 1 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Mix );
             buttons[ 2 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Discard );
             foreach( var button in buttons )
-                button.onClick.AddListener( GameManager.GameManagerInstance.CollectableItemSelected );
-            GameManager.GameManagerInstance.WaitForSelect();
+                button.onClick.AddListener( GameManager.GameManagerInstance.ButtonSelected );
+            GameManager.GameManagerInstance.WaitForButtonSelect();
         }
     }
 
