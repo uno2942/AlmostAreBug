@@ -7,7 +7,6 @@ public class CardKey : CollectableItem {
     protected override void Start() {
         base.Start();
         ClickEvent += Inventory.InventoryInstance.AddItem;
-        ClickEvent += ImageChange;
     }
 
     // Update is called once per frame

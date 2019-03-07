@@ -57,15 +57,19 @@ public class UiManager : MonoBehaviour
             buttons = select.GetComponentsInChildren<Button>();
             //temporary code
             buttons[ 0 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Use );
+            buttons[ 0 ].onClick.AddListener( GameManager.GameManagerInstance.WaitForAnotherItemForUse );
             buttons[ 1 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Mix );
+            buttons[ 1 ].onClick.AddListener( GameManager.GameManagerInstance.WaitForAnotherItemForMix );
             buttons[ 2 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Discard );
-            foreach( var button in buttons )
+            foreach( var button in buttons ) {
                 button.onClick.AddListener( GameManager.GameManagerInstance.ButtonSelected );
+                button.onClick.AddListener( CloseMessageBox );
+            }
             GameManager.GameManagerInstance.WaitForButtonSelect();
         }
     }
 
-    public void CloseMessageBox( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+    public void CloseMessageBox() {
         if( isSelectBoxOn ) {
             isSelectBoxOn = false;
             select.SetActive( false );
@@ -84,16 +88,18 @@ public class UiManager : MonoBehaviour
     public void AddItem( bool CheckItem, ItemManager.ItemList itemList, GameObject gObject ) {
         if( ItemManager.ItemList.Pillow == itemList ) {
             GameObject instantiatedGameObject;
-            instantiatedGameObject = Instantiate( gObject, GameObject.Find( "Canvas" ).transform );
+            ( instantiatedGameObject = Instantiate( gObject, GameObject.Find( "Canvas" ).transform ) ).name = "Pillow";
             instantiatedGameObject.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         }
 
         if( !CheckItem ) {
             gObject.transform.SetParent( itemPanel.transform );
-            gObject.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+            foreach( var text in gObject.GetComponentsInChildren<TextMeshProUGUI>() ) {
+                text.enabled = true;
+            }
         } else {
             string str = Inventory.InventoryInstance.CheckItemElement( itemList ).gObject.GetComponentInChildren<TextMeshProUGUI>().text;
-            str = 'x' + ( int.Parse( str.Remove( 0, 1 ).ToString() ) + 1 ).ToString();
+            str = 'x' + ( Inventory.InventoryInstance.CheckItemElement(itemList).num ).ToString();
             Inventory.InventoryInstance.CheckItemElement( itemList ).gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
             Destroy( gObject );
         }
@@ -101,7 +107,7 @@ public class UiManager : MonoBehaviour
 
     public void RemoveItem( ItemManager.ItemList itemList, GameObject gObject ) {
         string str = gObject.GetComponentInChildren<TextMeshProUGUI>().text;
-        if( int.Parse( str.Remove( 0, 1 ).ToString() ) == 1 ) {
+        if( int.Parse( str.Remove( 0, 1 ).ToString() ) <= 1 ) {
             str = "x0";
             gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
             Destroy( gObject );

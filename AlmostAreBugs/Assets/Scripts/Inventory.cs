@@ -67,7 +67,14 @@ public class Inventory : MonoBehaviour
             }
             throw new System.IndexOutOfRangeException();
         } else {
-            itemsInInventory[ i ].num += 1;
+            if(itemList==ItemManager.ItemList.Pillow) {
+                if( itemsInInventory[ i ].num < 8 )
+                    itemsInInventory[ i ].num++;
+                else
+                    itemsInInventory[ i ].num *= 2;
+            }
+            else
+                itemsInInventory[ i ].num += 1;
             UiManager.UiManagerInstance.AddItem( true, itemList, gObject );
         }
     }
@@ -80,6 +87,8 @@ public class Inventory : MonoBehaviour
         if( i == 20 ) {
             return false;
         } else {
+            if( itemsInInventory[ i ].num < 0 )
+                CleanitemsInInveotory( i );
             itemsInInventory[ i ].num -= 1;
             if( itemsInInventory[ i ].num == 0 ) {
                 CleanitemsInInveotory( i );

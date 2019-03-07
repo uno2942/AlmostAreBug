@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : MonoBehaviour
@@ -8,8 +7,8 @@ public class ItemManager : MonoBehaviour
     private static bool mShuttingDown = false;
     private static object mLock = new object();
 
-    private ItemList itemForMix1;
-    private ItemList itemForMix2;
+    private ItemList item1;
+    private ItemList item2;
 
     public GameObject[] prefabs;
     private Dictionary<string, GameObject> dicForPrefabs;
@@ -40,7 +39,7 @@ public class ItemManager : MonoBehaviour
         Matchbox, Match, BurningMatch, CardBox, Door, Bullet, Gun, Closet, Candle, CuttenPaperUp, CuttenPaperDown,
         LoadedGun, CandleGun, EmptyPaper, Paper, 
         PasswordPapeUp, PasswordPaperDown, PasswordPaper, CardKey, CutCandle,
-        Table, Desk, Stand, TV, SangSangDo };
+        Table, Desk, Stand, TV, SangSangDo, ButtonOnGame };
 
     [System.Flags]
     public enum PresentState { Default, Dropped, Gotten, Discarded };
@@ -58,16 +57,21 @@ public class ItemManager : MonoBehaviour
     }
 
     public void PutItemForMix1( ItemManager.ItemList item, GameObject gObject ) {
-        itemForMix1 = item;
+        item1 = item;
+        gObject1 = gObject;
+    }
+
+    public void PutItemForUse1( ItemManager.ItemList item, GameObject gObject ) {
+        item1 = item;
         gObject1 = gObject;
     }
 
     public void PutItemForMix2AndMix( ItemManager.ItemList item, GameObject gObject2 ) {
-        itemForMix2 = item;
-        var mixResult = MixResult( itemForMix1, itemForMix2 );
+        item2 = item;
+        var mixResult = MixResult( item1, item2 );
         if( mixResult[ 0 ] != ItemList.Empty ) {
-            Inventory.InventoryInstance.RemoveItem( itemForMix1, gObject1 );
-            Inventory.InventoryInstance.RemoveItem( itemForMix2, gObject2 );
+            Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
+            Inventory.InventoryInstance.RemoveItem( item2, gObject2 );
             foreach( var mixitem in mixResult ) {
                 Inventory.InventoryInstance.AddItem( mixitem, PresentState.Gotten, Instantiate( dicForPrefabs[ mixitem.ToString() ] ));
             }
@@ -75,6 +79,63 @@ public class ItemManager : MonoBehaviour
         
     }
 
+    public void PutItemForUse2andUse( ItemManager.ItemList item, GameObject gObject2 ) {
+        item2 = item;
+        UseResult( item1, gObject1, item2, gObject2);
+    }
+
+    public void UseResult( ItemManager.ItemList item1, GameObject gObject1, ItemManager.ItemList item2, GameObject gObject2 ) {
+        if( item1 == ItemManager.ItemList.Pillow && item2 == ItemManager.ItemList.Pillow 
+            && Inventory.InventoryInstance.CheckItemElement( item1 ).num < 0 ) {
+            Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
+            Destroy( gObject2 );
+        }
+        else if( item1 ==ItemManager.ItemList.DeskKey && item2 == ItemManager.ItemList.TV ) {
+            Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
+            GameObject.Find( "TV" ).GetComponent<TV>().OpenableDesk();
+        }
+        else if(item1 == ItemManager.ItemList.LoadedGun) {
+            TMPro.TextMeshProUGUI temp = GameObject.Find( "BulletNum" ).GetComponent<TMPro.TextMeshProUGUI>();
+            string text = temp.text;
+            if( temp.text == "" )
+                temp.text = "-1발";
+            else {
+                if( temp.text[ 0 ] == '-' )
+                    temp.text = $"{int.Parse( ( string.Concat( text[ 0 ].ToString() + text[ 1 ].ToString() ) ) ) - 1}발";
+                else
+                    temp.text = $"{int.Parse( text[ 0 ].ToString() ) - 1}발";
+            }
+            if( temp.text=="1발" ) {
+                temp.text = "";
+                gObject1.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/EmptyGun_inven" );
+            }
+
+            if( item2 == ItemList.Pillow ) {
+                Destroy( gObject2 );
+                gObject1.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/EmptyGun_inven" );
+                temp.text = "";
+            }
+
+        }
+        else if( item1 == ItemList.CandleGun ) {
+            TMPro.TextMeshProUGUI temp = GameObject.Find( "BulletNum" ).GetComponent<TMPro.TextMeshProUGUI>();
+            string text = temp.text;
+            if( temp.text == "" )
+                temp.text = "-1발";
+            else {
+                if( temp.text[0]=='-')
+                    temp.text = $"{int.Parse( (string.Concat(text[ 0 ].ToString()+text[1].ToString()) )) - 1}발";
+                else
+                temp.text = $"{int.Parse( text[ 0 ].ToString() ) - 1}발";
+            }
+            if( temp.text == "1발" ) {
+                temp.text = "";
+                gObject1.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/EmptyGun_inven" );
+            }
+            if( item2 == ItemList.ButtonOnGame )
+                GameObject.Find( "ButtonOnGame" ).GetComponent<ButtonOnGame>().OnTheButton();
+        }
+    }
     public ItemList[] MixResult(ItemList item1, ItemList item2 ) {
         if( ( item1 == ItemList.Quilt && item2 == ItemList.Scissors ) || ( item1 == ItemList.Scissors && item2 == ItemList.Quilt ) )
             return new ItemList[] { ItemList.DeskKey };

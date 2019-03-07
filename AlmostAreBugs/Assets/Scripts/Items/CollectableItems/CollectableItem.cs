@@ -23,19 +23,15 @@ public class CollectableItem : Item
     }
 
     public virtual void Discard() {
-        UiManager.UiManagerInstance.GetComponent<UiManager>().CloseMessageBox( item, presentState, gameObject );
         Inventory.InventoryInstance.RemoveItem( item, gameObject );
     }
 
     public virtual void Mix() {
-        UiManager.UiManagerInstance.GetComponent<UiManager>().CloseMessageBox( item, presentState, gameObject );
         ItemManager.ItemManagerInstance.PutItemForMix1( item, gameObject );
-        GameManager.GameManagerInstance.WaitForAnotherItem();
     }
 
     public virtual void Use() {
-        Debug.Log( "1" );
-        UiManager.UiManagerInstance.CloseMessageBox( item, presentState, gameObject );
+        ItemManager.ItemManagerInstance.PutItemForUse1( item, gameObject );
     }
 
     protected override void ClickEventHandlerReset() {

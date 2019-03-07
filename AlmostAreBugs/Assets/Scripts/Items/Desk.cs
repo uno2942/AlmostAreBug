@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Table : Item {
+public class Desk : Item {
     // Start is called before the first frame update
     protected override void Start()
     {

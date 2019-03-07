@@ -30,10 +30,12 @@ public class Item : MonoBehaviour
     }
 
     protected bool ClickEventHandlerInvoker( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
-        if( GameManager.GameManagerInstance.IsWating ) {
-            if( presentState == ItemManager.PresentState.Gotten )
-                GameManager.GameManagerInstance.ItemChecked( item, presentState, gameObject );
-        return false;    
+        if( GameManager.GameManagerInstance.IsWatingForAnotherItemForMix || GameManager.GameManagerInstance.IsWatingForAnotherItemForUse) {
+             GameManager.GameManagerInstance.ItemChecked( item, presentState, gameObject );
+        return false;
+        }
+        if( GameManager.GameManagerInstance.IsWatingForButton ) {
+            return false;
         }
         ClickEvent?.Invoke( item, presentState, gObject );
         return true;

@@ -17,6 +17,7 @@ public class GunField : CollectableItem {
 
     //아이템을 줍기 이전의 event
     public override void ImageChange( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+        gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/EmptyGun_inven" );
     }
 
 

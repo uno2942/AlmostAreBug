@@ -6,7 +6,6 @@ public class TV : Item {
 
     private bool isOpened = false;
     private bool isValid = false;
-
     protected override void Start()
     {
         
@@ -18,13 +17,31 @@ public class TV : Item {
         
     }
     public override void Clicked() {//Drawer 관련 코드가 필요.
+        if( ClickEventHandlerInvoker( item, presentState, gameObject ) ) {
+            Change();
+        }
+    }
+    
+    private void Change() {
         if( isValid ) {
             if( isOpened ) {
                 //OpenEvent
                 gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/TV_closed" );
+                isOpened = false;
+                GameManager.GameManagerInstance.DrawerFlagChange();
             } else {
                 gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/TV_opened" );
+                isOpened = true;
+                GameManager.GameManagerInstance.DrawerFlagChange();
             }
         }
+    }
+    public void OpenDesk() {
+        OpenableDesk();
+    }
+
+    public void OpenableDesk() {
+        isValid = true;
+        Change();
     }
 }

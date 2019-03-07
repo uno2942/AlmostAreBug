@@ -38,7 +38,6 @@ public class TaskList : MonoBehaviour
     {
         taskListText = TaskListInstance.GetComponentInChildren<TextMeshProUGUI>();
         strBuilder = new StringBuilder( taskListText.text );
-        AddStrikethrough( 1 );
     }
 
     // Update is called once per frame

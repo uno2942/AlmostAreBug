@@ -36,6 +36,5 @@ public class Scissors : CollectableItem {
     public override void Use() {
         base.Use();
         Debug.Log( "2" );
-        GameManager.GameManagerInstance.WaitForAnotherItem();
     }
 }
