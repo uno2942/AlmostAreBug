@@ -70,8 +70,10 @@ public class Inventory : MonoBehaviour
             if(itemList==ItemManager.ItemList.Pillow) {
                 if( itemsInInventory[ i ].num < 8 )
                     itemsInInventory[ i ].num++;
-                else
+                else {
+                    BugManager.BugManagerInstance.BugOccured( BugManager.BugList.Pillow );
                     itemsInInventory[ i ].num *= 2;
+                }
             }
             else
                 itemsInInventory[ i ].num += 1;

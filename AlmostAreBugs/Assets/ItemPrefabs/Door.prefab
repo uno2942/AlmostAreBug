@@ -143,3 +143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   presentState: 0
   item: 9
+  audioClip:
+  - {fileID: 8300000, guid: f56bcb05bca18f544923608f530eb02a, type: 3}
+  - {fileID: 8300000, guid: bb23a4b49f5274e48ac717c8e7c69026, type: 3}

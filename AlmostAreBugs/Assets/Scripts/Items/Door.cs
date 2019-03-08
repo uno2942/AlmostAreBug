@@ -6,7 +6,6 @@ public class Door : Item {
     private bool isOpenable;
     private bool isOpened=false;
     public bool IsOpenable { get => isOpenable; }
-
     // Start is called before the first frame update
     protected override void Start()
     {

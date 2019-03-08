@@ -88,9 +88,11 @@ public class ItemManager : MonoBehaviour
     public void UseResult( ItemManager.ItemList item1, GameObject gObject1, ItemManager.ItemList item2, GameObject gObject2 ) {
         if( item1 == ItemManager.ItemList.Pillow && item2 == ItemManager.ItemList.Pillow
             && Inventory.InventoryInstance.CheckItemElement( item1 ).num < 0 ) {
+            BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.Pillow );
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
             Destroy( gObject2 );
         } else if( item1 == ItemManager.ItemList.DeskKey && item2 == ItemManager.ItemList.TV ) {
+            BugManager.BugManagerInstance.BugOccured( BugManager.BugList.TV );
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
             GameObject.Find( "TV" ).GetComponent<TV>().OpenableDesk();
         } else if( item1 == ItemManager.ItemList.LoadedGun ) {
@@ -98,6 +100,7 @@ public class ItemManager : MonoBehaviour
             string text = temp.text;
             Vector3 mouse = Input.mousePosition;
             Instantiate( Instantiate( dicForPrefabs[ "Pillow" ], Camera.main.ScreenToWorldPoint( mouse ) + new Vector3( 0, 0, 10 ), Quaternion.identity, GameObject.Find( "PlayerCanvas" ).transform ) );
+            BugManager.BugManagerInstance.BugOccured( BugManager.BugList.LoadedGun );
             if( temp.text == "" )
                 temp.text = "-1발";
             else {
@@ -126,10 +129,13 @@ public class ItemManager : MonoBehaviour
                 temp.text = "";
                 gObject1.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/EmptyGun_inven" );
             }
-            if( item2 == ItemList.ButtonOnGame )
+            if( item2 == ItemList.ButtonOnGame ) {
                 GameObject.Find( "ButtonOnGame" ).GetComponent<ButtonOnGame>().OnTheButton();
+                BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.LoadedGun );
+            }
         } else if( item1 == ItemList.BurningMatch && ( item2 == ItemList.Candle ) ) {
             gObject2.GetComponent<CandleStick>().LitTheCandle();
+            BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.FireMatch );
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
         } else if( item1 == ItemList.Scissors && ( item2 == ItemList.Candle || item2 == ItemList.LightingCandle ) ) {
             gObject2.GetComponent<CandleStick>().CutCandle();
@@ -164,12 +170,16 @@ public class ItemManager : MonoBehaviour
             )
             return new ItemList[] { ItemList.CandleGun };
         else if( ( item1 == ItemList.PasswordPaperUp && item2 == ItemList.PasswordPaperDown ) || ( item1 == ItemList.PasswordPaperDown && item2 == ItemList.PasswordPaperUp ) )
+            {
+            BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.Paper );
             return new ItemList[] { ItemList.PasswordPaper };
+        }
         else if( ( item1 == ItemList.CardBox && item2 == ItemList.PasswordPaper ) || ( item1 == ItemList.PasswordPaper && item2 == ItemList.CardBox ) )
             return new ItemList[] { ItemList.CardKey };
-        else if( ( item1 == ItemList.Matchbox && item2 == ItemList.Match ) || ( item1 == ItemList.Match && item2 == ItemList.Matchbox ) )
+        else if( ( item1 == ItemList.Matchbox && item2 == ItemList.Match ) || ( item1 == ItemList.Match && item2 == ItemList.Matchbox ) ) {
+            BugManager.BugManagerInstance.BugOccured( BugManager.BugList.FireMatch );
             return new ItemList[] { ItemList.BurningMatch };
-        else
+        } else
             return new ItemList[] { ItemList.Empty };
     }
 

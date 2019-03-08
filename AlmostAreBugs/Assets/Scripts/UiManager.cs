@@ -14,6 +14,7 @@ public class UiManager : MonoBehaviour
     private bool isSelectBoxOn;
     private int pivot = 0;
     private Button[] buttons;
+    private RectTransform originalImageTrans;
     private Image itemImage;
     private TextMeshProUGUI itemDescription;
     private TextMeshProUGUI itemName;
@@ -47,8 +48,8 @@ public class UiManager : MonoBehaviour
         foreach(var comps in select.GetComponentsInChildren<Image>()) {
             if( comps.transform.name == "ItemImage" ) {
                 itemImage = comps;
-                break;
-            }
+            } else if( comps.transform.name == "OriginItemImage" )
+                originalImageTrans = (RectTransform) comps.transform;
         }
         foreach( var comps in select.GetComponentsInChildren<TextMeshProUGUI>() ) {
             if( comps.transform.name == "ItemDescription" ) {
@@ -80,6 +81,13 @@ public class UiManager : MonoBehaviour
             foreach( var button in buttons ) {
                 button.onClick.AddListener( GameManager.GameManagerInstance.ButtonSelected );
                 button.onClick.AddListener( CloseMessageBox );
+            }
+            ( (RectTransform) itemImage.transform ).position = originalImageTrans.position;
+            ( (RectTransform) itemImage.transform ).sizeDelta = originalImageTrans.sizeDelta;
+            if(item == ItemManager.ItemList.Paper) {
+                BugManager.BugManagerInstance.BugOccured( BugManager.BugList.Paper );
+                ( (RectTransform) itemImage.transform ).localPosition = new Vector3( -63.8f, -18.2f, 0 );
+                ( (RectTransform) itemImage.transform ).sizeDelta = new Vector2( 660.4f, 522.6f );
             }
             itemImage.sprite = gObject.GetComponent<Image>().sprite;
             itemDescription.text = ScriptWindow.ScriptWindowInstance.ItemDescriptionForCheckedItem(item);
