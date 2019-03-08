@@ -8,6 +8,7 @@ public class Quilt : CollectableItem {
     {
         base.Start();
         ClickEvent += Inventory.InventoryInstance.AddItem;
+        ClickEvent += ImageChange;
         // ClickEvent += ImageChange;
     }
 
@@ -15,6 +16,9 @@ public class Quilt : CollectableItem {
     protected override void Update()
     {
         
+    }
+    public override void ImageChange( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+        gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/quilt_inventory" );
     }
 
     public override void Clicked() {
@@ -24,6 +28,7 @@ public class Quilt : CollectableItem {
                 presentState = ItemManager.PresentState.Gotten;
                 ClickEventHandlerReset();
                 ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
+                ClickEvent += UiManager.UiManagerInstance.ChangeColorOfBackground;
                 return;
             case ItemManager.PresentState.Gotten:
                 break;

@@ -29,6 +29,7 @@ public class Bullet : CollectableItem
                 presentState = ItemManager.PresentState.Gotten;
                 ClickEventHandlerReset();
                 ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
+                ClickEvent += UiManager.UiManagerInstance.ChangeColorOfBackground;
                 return;
             case ItemManager.PresentState.Gotten:
                 break;

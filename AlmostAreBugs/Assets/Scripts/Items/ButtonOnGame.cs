@@ -39,6 +39,8 @@ public class ButtonOnGame : Item {
     }
 
     public void Validiate() {
+        if(!isValid)
+            ItemManager.ItemManagerInstance.PutPaperOnFax();
         isValid = true;
         Change();
     }

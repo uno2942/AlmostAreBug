@@ -16,7 +16,8 @@ public class GameManager : MonoBehaviour
     private bool isDrawerExists = false;
     private bool isButtonOn = false;
     private GameObject clickedGameObject = null;
-
+    public GameObject[] DrawerControll;
+    public GameObject cancelWindow;
     public static GameManager GameManagerInstance {
         get
         {
@@ -61,11 +62,15 @@ public class GameManager : MonoBehaviour
         isWatingForAnotherItemForUse = true;
         item = ItemManager.ItemList.Empty;
         isCanceled = false;
+        ( (RectTransform) cancelWindow.transform ).localPosition = new Vector3( BoardManager.BoardManagerInstance.nowPosForCanvas(), 0, 0 );
+        cancelWindow.SetActive( true );
         StartCoroutine( WaitForAnotherItemForUseCoroutine() );
     }
 
     IEnumerator WaitForAnotherItemForUseCoroutine() {
         yield return new WaitWhile( () => ( item == ItemManager.ItemList.Empty && isCanceled == false ) );
+        cancelWindow.SetActive( false );
+        UiManager.UiManagerInstance.ResetTheColorOfBackGround();
         if( !isCanceled )
             ItemManager.ItemManagerInstance.PutItemForUse2andUse( item, clickedGameObject );
         item = ItemManager.ItemList.Empty;
@@ -84,6 +89,8 @@ public class GameManager : MonoBehaviour
     IEnumerator WaitForButtonSelectCoroutine() {
         yield return new WaitWhile( () => ( isWatingForButton == true ) );
         isWatingForButton = false;
+        if( !isWatingForAnotherItemForMix && !isWatingForAnotherItemForUse )
+            UiManager.UiManagerInstance.ResetTheColorOfBackGround();
         Debug.Log( "Coroutine End: WaitForButtonSelectCoroutine" );
     }
     
@@ -93,11 +100,14 @@ public class GameManager : MonoBehaviour
         isWatingForAnotherItemForMix = true;
         item = ItemManager.ItemList.Empty;
         isCanceled = false;
+        cancelWindow.SetActive( true );
         StartCoroutine( WaitForAnotherItemForMixCoroutine() );
     }
 
     IEnumerator WaitForAnotherItemForMixCoroutine() {
         yield return new WaitWhile( () => (item == ItemManager.ItemList.Empty && isCanceled == false) );
+        cancelWindow.SetActive( false );
+        UiManager.UiManagerInstance.ResetTheColorOfBackGround();
         if( !isCanceled )
             ItemManager.ItemManagerInstance.PutItemForMix2AndMix( item, clickedGameObject );
         item = ItemManager.ItemList.Empty;
@@ -122,7 +132,19 @@ public class GameManager : MonoBehaviour
     }
 
     public void DrawerFlagChange() {
+        if( true == Inventory.InventoryInstance.CheckItem( ItemManager.ItemList.CardBox ) ) {
+            DrawerControll[ 1 ] = null;
+        }
+        if( isDrawerExists ) {
+            foreach( var gObject in DrawerControll )
+                gObject?.SetActive( false );
+        } 
+        else {
+            foreach( var gObject in DrawerControll )
+                gObject?.SetActive( true );
+        }
         isDrawerExists = !isDrawerExists;
+
     }
 
     public void ButtonFlagChange() {

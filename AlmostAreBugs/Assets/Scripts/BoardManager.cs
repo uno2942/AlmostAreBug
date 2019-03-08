@@ -9,6 +9,8 @@ public class BoardManager : MonoBehaviour
     private static object mLock = new object();
 
     private GameObject mainCamera;
+    public GameObject[] Poses;
+    public int Pos;
 
     public static BoardManager BoardManagerInstance {
         get
@@ -34,12 +36,35 @@ public class BoardManager : MonoBehaviour
     void Start()
     {
         mainCamera = GameObject.Find( "Main Camera" );
+        Pos = 0;
+        mainCamera.transform.position = Poses[Pos].transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    public void MoveLeft() {
+        if( !( GameManager.GameManagerInstance.IsWatingForAnotherItemForMix || GameManager.GameManagerInstance.IsWatingForAnotherItemForUse || GameManager.GameManagerInstance.IsWatingForButton ) ) {
+            Pos -= 1;
+            if( Pos < 0 )
+                Pos = 3;
+            mainCamera.transform.position = Poses[ Pos ].transform.position;
+        }
+    }
+
+    public void MoveRight() {
+        if( !( GameManager.GameManagerInstance.IsWatingForAnotherItemForMix || GameManager.GameManagerInstance.IsWatingForAnotherItemForUse || GameManager.GameManagerInstance.IsWatingForButton ) ) {
+            Pos += 1;
+            if( Pos == 4 )
+                Pos = 0;
+            mainCamera.transform.position = Poses[ Pos ].transform.position;
+        }
+    }
+
+    public float nowPosForCanvas() {
+        return ( Pos * 1920f );
     }
 
     private void OnApplicationQuit() {

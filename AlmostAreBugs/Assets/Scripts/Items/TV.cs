@@ -23,16 +23,18 @@ public class TV : Item {
     }
     
     private void Change() {
-        if( isValid ) {
-            if( isOpened ) {
-                //OpenEvent
-                gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/TV_closed" );
-                isOpened = false;
-                GameManager.GameManagerInstance.DrawerFlagChange();
-            } else {
-                gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/TV_opened" );
-                isOpened = true;
-                GameManager.GameManagerInstance.DrawerFlagChange();
+        if( !( GameManager.GameManagerInstance.IsWatingForAnotherItemForMix || GameManager.GameManagerInstance.IsWatingForAnotherItemForUse || GameManager.GameManagerInstance.IsWatingForButton ) ) {
+            if( isValid ) {
+                if( isOpened ) {
+                    //OpenEvent
+                    gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/TV_closed" );
+                    isOpened = false;
+                    GameManager.GameManagerInstance.DrawerFlagChange();
+                } else {
+                    gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/TV_opened" );
+                    isOpened = true;
+                    GameManager.GameManagerInstance.DrawerFlagChange();
+                }
             }
         }
     }

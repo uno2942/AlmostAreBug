@@ -14,7 +14,6 @@ public class UiManager : MonoBehaviour
     private bool isSelectBoxOn;
     private int pivot = 0;
     private Button[] buttons;
-
     public GameObject[] itemPanelBoxes;
     public static UiManager UiManagerInstance {
         get
@@ -79,18 +78,14 @@ public class UiManager : MonoBehaviour
                 button.onClick.RemoveAllListeners();
         }
     }
-        public void MoveLeft() {
-
-    }
-
-    public void MoveRight() {
-
-    }
 
     public void AddItem( bool CheckItem, ItemManager.ItemList itemList, GameObject gObject ) {
         if( ItemManager.ItemList.Pillow == itemList ) {
             GameObject instantiatedGameObject;
-            ( instantiatedGameObject = Instantiate( gObject, GameObject.Find( "Canvas" ).transform ) ).name = "Pillow";
+            if( gObject.GetComponentInParent<Canvas>().transform.name == "PlayerCanvas" )
+                ( instantiatedGameObject = Instantiate( gObject, GameObject.Find( "PlayerCanvas" ).transform ) ).name = "Pillow";
+            else
+                ( instantiatedGameObject = Instantiate( gObject, GameObject.Find( "Canvas" ).transform ) ).name = "Pillow";
             instantiatedGameObject.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         }
         if(ItemManager.ItemList.Gun == itemList ) {
@@ -110,46 +105,73 @@ public class UiManager : MonoBehaviour
         PanelUpdate();
     }
 
+    public void ChangeColorOfBackground( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
+        int i = pivot;
+        foreach( var panelBox in itemPanelBoxes ) {
+            if( Inventory.InventoryInstance.ItemsInInventory[ i % 9 ].item == item ) {
+                itemPanelBoxes[ i - pivot ].GetComponent<Image>().color = new Color( 0.5f, 0.5f, 0.5f );
+                return;
+            }
+            i += 1;
+        }
+    }
+
+    public void ResetTheColorOfBackGround(  ) {
+        int i = 0;
+        foreach( var panelBox in itemPanelBoxes ) {
+                itemPanelBoxes[ i ].GetComponent<Image>().color = new Color( 1f, 1f, 1f );
+            i += 1;
+        }
+    }
+
     public void PanelUpdate() {
         int i = pivot;
         foreach(var item in Inventory.InventoryInstance.ItemsInInventory ) {
             item.gObject?.SetActive( false );
         }
         foreach( var panelBox in itemPanelBoxes ) {
-            if( Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject != null ) {
-                Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject.SetActive( true );
-                Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject.transform.SetParent( panelBox.transform );
-                ( (RectTransform) Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject.transform ).sizeDelta = new Vector2( 1f, 0.9f );
-                Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject.transform.localPosition=new Vector2( 5f, 0f );
+            if( Inventory.InventoryInstance.ItemsInInventory[ i % 9 ].gObject != null ) {
+                Inventory.InventoryInstance.ItemsInInventory[ i % 9 ].gObject.SetActive( true );
+                Inventory.InventoryInstance.ItemsInInventory[ i % 9 ].gObject.transform.SetParent( panelBox.transform );
+                ( (RectTransform) Inventory.InventoryInstance.ItemsInInventory[ i % 9 ].gObject.transform ).localScale = new Vector3( 100f, 100f, 108f );
+                ( (RectTransform) Inventory.InventoryInstance.ItemsInInventory[ i % 9 ].gObject.transform ).sizeDelta = new Vector2( 1f, 0.9f );
+                Inventory.InventoryInstance.ItemsInInventory[ i % 9 ].gObject.transform.localPosition=new Vector2( 5f, 0f );
             }
             i += 1;
         }
     }
 
     public void Pivotplus() {
-        pivot += 1;
-        if( pivot > 9 )
-            pivot -= 10;
-        PanelUpdate();
+        if( !( GameManager.GameManagerInstance.IsWatingForAnotherItemForMix || GameManager.GameManagerInstance.IsWatingForAnotherItemForUse || GameManager.GameManagerInstance.IsWatingForButton ) ) {
+            pivot += 1;
+            if( pivot > 8 )
+                pivot -= 9;
+            PanelUpdate();
+        }
     }
 
     public void Pivotminus() {
-        pivot -= 1;
-        if( pivot < 0 )
-            pivot += 10;
-        PanelUpdate();
+        if( !( GameManager.GameManagerInstance.IsWatingForAnotherItemForMix || GameManager.GameManagerInstance.IsWatingForAnotherItemForUse || GameManager.GameManagerInstance.IsWatingForButton ) ) {
+            pivot -= 1;
+            if( pivot < 0 )
+                pivot += 9;
+            PanelUpdate();
+        }
     }
 
     public void RemoveItem( ItemManager.ItemList itemList, GameObject gObject ) {
         string str = gObject.GetComponentInChildren<TextMeshProUGUI>().text;
+        Destroy( gObject );
+        /*
         if( int.Parse( str.Remove( 0, 1 ).ToString() ) <= 1 ) {
             str = "x0";
             gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
-            Destroy( gObject );
+            
         } else {
             str = 'x' + ( int.Parse( str.Remove( 0, 1 ).ToString() ) - 1 ).ToString();
             gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
         }
+        */
     }
 
     private void OnApplicationQuit() {

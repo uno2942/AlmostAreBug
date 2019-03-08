@@ -37,7 +37,7 @@ public class Inventory : MonoBehaviour
         }
     }
     
-    const int MAXITEMNUM = 20;
+    const int MAXITEMNUM = 9;
     // Start is called before the first frame update
     void Start()
     {
@@ -87,6 +87,10 @@ public class Inventory : MonoBehaviour
         if( i == 20 ) {
             return false;
         } else {
+            CleanitemsInInveotory( i );
+            UiManager.UiManagerInstance.RemoveItem( itemList, gObject );
+            return true;
+            /*
             if( itemsInInventory[ i ].num < 0 )
                 CleanitemsInInveotory( i );
             itemsInInventory[ i ].num -= 1;
@@ -95,6 +99,7 @@ public class Inventory : MonoBehaviour
             }
             UiManager.UiManagerInstance.RemoveItem( itemList, gObject );
             return true;
+            */
         }
     }
 
@@ -121,6 +126,24 @@ public class Inventory : MonoBehaviour
             return true;
     }
 
+    public void Burn(ItemManager.ItemList item ) {
+        int i = 0;
+        if( item == ItemManager.ItemList.CuttenPaperDown ) {
+            for( i = 0; i < MAXITEMNUM; i++ )
+                if( item == itemsInInventory[ i ].item )
+                    break;
+            itemsInInventory[ i ].item = ItemManager.ItemList.PasswordPaperDown;
+            return;
+        } else if( item == ItemManager.ItemList.CuttenPaperUp ) {
+            for( i = 0; i < MAXITEMNUM; i++ )
+                if( item == itemsInInventory[ i ].item )
+                    break;
+            itemsInInventory[ i ].item = ItemManager.ItemList.PasswordPapeUp;
+            return;
+        } else
+            return;
+
+    }
     private void OnApplicationQuit() {
         mShuttingDown = true;
     }

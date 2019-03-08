@@ -6,8 +6,10 @@ public class DeskKey : CollectableItem {
 
     protected override void Start() {
         base.Start();
-        ClickEvent += Inventory.InventoryInstance.AddItem;
-        ClickEvent += ImageChange;
+        presentState = ItemManager.PresentState.Gotten;
+        ClickEventHandlerReset();
+        ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
+        ClickEvent += UiManager.UiManagerInstance.ChangeColorOfBackground;
     }
 
     // Update is called once per frame
@@ -16,9 +18,6 @@ public class DeskKey : CollectableItem {
     }
 
     //아이템을 줍기 이전의 event
-    public override void ImageChange( ItemManager.ItemList item, ItemManager.PresentState presentState, GameObject gObject ) {
-    }
-
 
     //아이템을 인벤토리에 넣은 이후의 events
 
@@ -27,8 +26,6 @@ public class DeskKey : CollectableItem {
             switch( presentState ) {
             case ItemManager.PresentState.Dropped:
                 presentState = ItemManager.PresentState.Gotten;
-                ClickEventHandlerReset();
-                ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
                 return;
             case ItemManager.PresentState.Gotten:
                 break;
