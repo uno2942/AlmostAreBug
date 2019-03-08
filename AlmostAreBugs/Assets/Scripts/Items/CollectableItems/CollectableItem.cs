@@ -22,8 +22,8 @@ public class CollectableItem : Item
 
     }
 
-    public virtual void Discard() {
-        Inventory.InventoryInstance.RemoveItem( item, gameObject );
+    public virtual void Cancel() {
+        GameManager.GameManagerInstance.Cancel();
     }
 
     public virtual void Mix() {

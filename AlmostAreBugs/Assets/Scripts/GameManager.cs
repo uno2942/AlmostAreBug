@@ -113,6 +113,9 @@ public class GameManager : MonoBehaviour
         clickedGameObject = gObject;
     }
 
+    public void Cancel() {
+        isCanceled = true;
+    }
 
     public void ButtonSelected(  ) {
         isWatingForButton = false;

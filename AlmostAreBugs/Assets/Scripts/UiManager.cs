@@ -12,8 +12,10 @@ public class UiManager : MonoBehaviour
     private HorizontalLayoutGroup itemPanel;
     private GameObject select;
     private bool isSelectBoxOn;
-
+    private int pivot = 0;
     private Button[] buttons;
+
+    public GameObject[] itemPanelBoxes;
     public static UiManager UiManagerInstance {
         get
         {
@@ -60,7 +62,7 @@ public class UiManager : MonoBehaviour
             buttons[ 0 ].onClick.AddListener( GameManager.GameManagerInstance.WaitForAnotherItemForUse );
             buttons[ 1 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Mix );
             buttons[ 1 ].onClick.AddListener( GameManager.GameManagerInstance.WaitForAnotherItemForMix );
-            buttons[ 2 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Discard );
+            buttons[ 2 ].onClick.AddListener( gObject.GetComponent<CollectableItem>().Cancel );
             foreach( var button in buttons ) {
                 button.onClick.AddListener( GameManager.GameManagerInstance.ButtonSelected );
                 button.onClick.AddListener( CloseMessageBox );
@@ -91,9 +93,11 @@ public class UiManager : MonoBehaviour
             ( instantiatedGameObject = Instantiate( gObject, GameObject.Find( "Canvas" ).transform ) ).name = "Pillow";
             instantiatedGameObject.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         }
+        if(ItemManager.ItemList.Gun == itemList ) {
+            ((RectTransform) ( Inventory.InventoryInstance.CheckItemElement( itemList ).gObject.transform )).Rotate(new Vector3(0, 0, 90f));
+        }
 
         if( !CheckItem ) {
-            gObject.transform.SetParent( itemPanel.transform );
             foreach( var text in gObject.GetComponentsInChildren<TextMeshProUGUI>() ) {
                 text.enabled = true;
             }
@@ -103,6 +107,37 @@ public class UiManager : MonoBehaviour
             Inventory.InventoryInstance.CheckItemElement( itemList ).gObject.GetComponentInChildren<TextMeshProUGUI>().text = str;
             Destroy( gObject );
         }
+        PanelUpdate();
+    }
+
+    public void PanelUpdate() {
+        int i = pivot;
+        foreach(var item in Inventory.InventoryInstance.ItemsInInventory ) {
+            item.gObject?.SetActive( false );
+        }
+        foreach( var panelBox in itemPanelBoxes ) {
+            if( Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject != null ) {
+                Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject.SetActive( true );
+                Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject.transform.SetParent( panelBox.transform );
+                ( (RectTransform) Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject.transform ).sizeDelta = new Vector2( 1f, 0.9f );
+                Inventory.InventoryInstance.ItemsInInventory[ i % 10 ].gObject.transform.localPosition=new Vector2( 5f, 0f );
+            }
+            i += 1;
+        }
+    }
+
+    public void Pivotplus() {
+        pivot += 1;
+        if( pivot > 9 )
+            pivot -= 10;
+        PanelUpdate();
+    }
+
+    public void Pivotminus() {
+        pivot -= 1;
+        if( pivot < 0 )
+            pivot += 10;
+        PanelUpdate();
     }
 
     public void RemoveItem( ItemManager.ItemList itemList, GameObject gObject ) {
