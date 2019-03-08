@@ -11,10 +11,6 @@ public class CandleStick : Item {
 
     public bool IsLit { get => isLit; set => isLit = value; }
 
-    protected override void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     protected override void Update()

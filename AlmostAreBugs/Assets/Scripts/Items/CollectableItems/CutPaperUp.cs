@@ -43,7 +43,7 @@ public class CutPaperUp : CollectableItem {
             isBurn = true;
             gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/code_paper_top" );
             Inventory.InventoryInstance.Burn( item );
-            item = ItemManager.ItemList.PasswordPapeUp;
+            item = ItemManager.ItemList.PasswordPaperUp;
         }
     }
 }

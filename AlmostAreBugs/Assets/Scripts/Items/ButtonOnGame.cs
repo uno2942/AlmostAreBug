@@ -6,10 +6,10 @@ public class ButtonOnGame : Item {
 
     private bool isOn = false;
     private bool isValid = false;
-    protected override void Start()
-    {
-        
-    }
+
+    public bool IsOn { get => isOn; }
+    public bool IsValid { get => isValid; set => isValid = value; }
+
 
     // Update is called once per frame
     protected override void Update()

@@ -60,12 +60,57 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 Write( srpt.objectOnclick );
                 break;
             }
+            else if(item== ItemManager.ItemList.Fax ) {
+                if( srpt.target == item.ToString() + "On" )  {
+                    if( GameObject.Find( "ButtonOnGame" ).GetComponent<ButtonOnGame>().IsValid == true )
+                        Write( srpt.objectOnclick );
+                }
+                else if( srpt.target == item.ToString() + "Off" ) {
+                    if( GameObject.Find( "ButtonOnGame" ).GetComponent<ButtonOnGame>().IsValid == false )
+                        Write( srpt.objectOnclick );
+                }
+            } else if( item == ItemManager.ItemList.TV ) {
+                if( srpt.target == item.ToString() + "On" ) {
+                    if( GameObject.Find( "TV" ).GetComponent<TV>().IsOpened == true )
+                        Write( srpt.objectOnclick );
+                } else if( srpt.target == item.ToString() + "Off" ) {
+                    if( GameObject.Find( "TV" ).GetComponent<TV>().IsOpened == false )
+                        Write( srpt.objectOnclick );
+                }
+            } else if( item == ItemManager.ItemList.ButtonOnGame ) {
+                if( srpt.target == item.ToString() + "On" ) {
+                    if( GameObject.Find( "ButtonOnGame" ).GetComponent<ButtonOnGame>().IsOn == true )
+                        Write( srpt.objectOnclick );
+                } else if( srpt.target == item.ToString() + "Off" ) {
+                    if( GameObject.Find( "ButtonOnGame" ).GetComponent<ButtonOnGame>().IsOn == false )
+                        Write( srpt.objectOnclick );
+                }
+            }
         }
+    }
+
+    public string ItemDescriptionForCheckedItem( ItemManager.ItemList item) {
+        foreach( var srpt in Parser.ParserInstance.loadedDataForItemScripts.ItemScript ) {
+            if( srpt.codeName == item.ToString() ) {
+                return srpt.boxScript;
+            }
+        }
+        return "";
+    }
+
+    public string ItemNameForCheckedItem( ItemManager.ItemList item ) {
+        foreach( var srpt in Parser.ParserInstance.loadedDataForItemScripts.ItemScript ) {
+            if( srpt.codeName == item.ToString() ) {
+                return srpt.stringName;
+            }
+        }
+        return "";
     }
 
     public void Write(string str ) {
 
-        scriptWindow.GetComponentInChildren<TextMeshProUGUI>().text += str;
+        scriptWindow.GetComponentInChildren<TextMeshProUGUI>().text += (str+'\n');
+        ScriptWindowOn();
         /*foreach(var strLine in str.Split('\n')) {
             WriteALine(strLine)
         }

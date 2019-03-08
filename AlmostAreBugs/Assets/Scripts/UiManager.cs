@@ -14,6 +14,9 @@ public class UiManager : MonoBehaviour
     private bool isSelectBoxOn;
     private int pivot = 0;
     private Button[] buttons;
+    private Image itemImage;
+    private TextMeshProUGUI itemDescription;
+    private TextMeshProUGUI itemName;
     public GameObject[] itemPanelBoxes;
     public static UiManager UiManagerInstance {
         get
@@ -41,6 +44,18 @@ public class UiManager : MonoBehaviour
     //    dialogWindow = GameObject.Find( "DialogWindow" ).GetComponent<DialogWindow>();
         itemPanel = GameObject.Find( "ItemPanel" ).GetComponent<HorizontalLayoutGroup>();
         select = GameObject.Find( "select" );
+        foreach(var comps in select.GetComponentsInChildren<Image>()) {
+            if( comps.transform.name == "ItemImage" ) {
+                itemImage = comps;
+                break;
+            }
+        }
+        foreach( var comps in select.GetComponentsInChildren<TextMeshProUGUI>() ) {
+            if( comps.transform.name == "ItemDescription" ) {
+                itemDescription = comps;
+            } else if( comps.transform.name == "ItemName" )
+                itemName = comps;
+        }
         select.SetActive( false );
         isSelectBoxOn = false;
     }
@@ -66,6 +81,9 @@ public class UiManager : MonoBehaviour
                 button.onClick.AddListener( GameManager.GameManagerInstance.ButtonSelected );
                 button.onClick.AddListener( CloseMessageBox );
             }
+            itemImage.sprite = gObject.GetComponent<Image>().sprite;
+            itemDescription.text = ScriptWindow.ScriptWindowInstance.ItemDescriptionForCheckedItem(item);
+            itemName.text = ScriptWindow.ScriptWindowInstance.ItemNameForCheckedItem( item );
             GameManager.GameManagerInstance.WaitForButtonSelect();
         }
     }

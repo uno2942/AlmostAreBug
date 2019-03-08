@@ -18,7 +18,7 @@ namespace AlmostAreBugs_JSON_Generator {
             
             string[] temp2 = System.IO.Directory.GetCurrentDirectory().Split( '\\' );
             List<string> temp3 = new List<string>( ( temp2.Reverse().Skip( 4 ) ).Reverse() );
-            temp3.Add( "\\AlmostAreBugs\\Assets\\StreamingAssets" );
+            temp3.Add( "AlmostAreBugs\\Assets\\StreamingAssets" );
             string writingFilePath = String.Join( @"\", temp3 );
             foreach( List<List<string>> Script in csvReader.listlistlist ) {
                 dataSet = new DataSet( csvReader.fileList[j] );

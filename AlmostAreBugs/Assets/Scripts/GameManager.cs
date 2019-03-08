@@ -71,11 +71,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitWhile( () => ( item == ItemManager.ItemList.Empty && isCanceled == false ) );
         cancelWindow.SetActive( false );
         UiManager.UiManagerInstance.ResetTheColorOfBackGround();
+        isCanceled = false;
+        isWatingForAnotherItemForUse = false;
         if( !isCanceled )
             ItemManager.ItemManagerInstance.PutItemForUse2andUse( item, clickedGameObject );
         item = ItemManager.ItemList.Empty;
-        isCanceled = false;
-        isWatingForAnotherItemForUse = false;
         Debug.Log( "Coroutine End: WaitForAnotherItemForUseCoroutine" );
     }
 
@@ -108,11 +108,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitWhile( () => (item == ItemManager.ItemList.Empty && isCanceled == false) );
         cancelWindow.SetActive( false );
         UiManager.UiManagerInstance.ResetTheColorOfBackGround();
+        isCanceled = false;
+        isWatingForAnotherItemForMix = false;
         if( !isCanceled )
             ItemManager.ItemManagerInstance.PutItemForMix2AndMix( item, clickedGameObject );
         item = ItemManager.ItemList.Empty;
-        isCanceled = false;
-        isWatingForAnotherItemForMix = false;
         Debug.Log( "Coroutine End: WaitForAnotherItemCoroutine" );
         //조합 코드
     }

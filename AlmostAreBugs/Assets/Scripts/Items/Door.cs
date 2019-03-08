@@ -20,23 +20,22 @@ public class Door : Item {
         
     }
 
-    public override void Clicked() {
-        if( ClickEventHandlerInvoker( item, presentState, gameObject ) ) {
-            //if() 
-            {
-            if( isOpened ) {
-                //OpenEvent
-                gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/door_closed" );
-                isOpened = false;
-            } else {
-                gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/door_opened" );
-                isOpened = true;
+    private void OpenDoor() {
+        if( !( GameManager.GameManagerInstance.IsWatingForAnotherItemForMix || GameManager.GameManagerInstance.IsWatingForAnotherItemForUse || GameManager.GameManagerInstance.IsWatingForButton ) ) {
+            if( isOpenable ) {
+                if( isOpened ) {
+                    //OpenEvent
+                    gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/door_closed" );
+                    isOpened = false;
+                } else {
+                    gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/door_opened" );
+                    isOpened = true;
                 }
             }
         }
     }
-
     public void OpenableTheDoor() {
         isOpenable = true;
+        OpenDoor();
     }
 }

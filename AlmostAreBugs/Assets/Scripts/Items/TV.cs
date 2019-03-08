@@ -6,10 +6,8 @@ public class TV : Item {
 
     private bool isOpened = false;
     private bool isValid = false;
-    protected override void Start()
-    {
-        
-    }
+
+    public bool IsOpened { get => isOpened; set => isOpened = value; }
 
     // Update is called once per frame
     protected override void Update()

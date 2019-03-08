@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Desk : Item {
+public class Bed : Item {
+    // Start is called before the first frame update
 
 }

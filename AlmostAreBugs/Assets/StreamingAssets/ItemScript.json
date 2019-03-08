@@ -11,7 +11,7 @@
       "boxScript": "솜이 가득 든 이불이다. 안에서 짤랑거리는 소리가 난다."
     },
     {
-      "codeName": "Sissor",
+      "codeName": "Scissors",
       "stringName": "가위",
       "boxScript": "날카로운 가위이다. 무언가를 자를 때 사용할 수 있어 보인다."
     },
@@ -66,7 +66,7 @@
       "boxScript": "총탄 대신 양초를 장착한 장난감 총이다. 이건 정상적으로 발사되겠지?"
     },
     {
-      "codeName": "EmptyPaper",
+      "codeName": "Paper",
       "stringName": "빈 종이",
       "boxScript": "시큼한 냄새가 조금 나는 노란 종이. 아무 것도 적혀 있지 않다."
     },

@@ -38,8 +38,8 @@ public class ItemManager : MonoBehaviour
     public enum ItemList { Empty, Pillow, Quilt, Scissors, DeskKey,
         Matchbox, Match, BurningMatch, CardBox, Door, Bullet, Gun, Closet, Candle, CuttenPaperUp, CuttenPaperDown,
         LoadedGun, CandleGun, Paper, 
-        PasswordPapeUp, PasswordPaperDown, PasswordPaper, CardKey, CutCandle,
-        Table, Desk, Stand, TV, SangSangDo, ButtonOnGame, LightingCandle};
+        PasswordPaperUp, PasswordPaperDown, PasswordPaper, CardKey, CutCandle,
+        Table, Desk, Stand, TV, SangSangDo, ButtonOnGame, LightingCandle, Bed, Fax};
 
     [System.Flags]
     public enum PresentState { Default, Dropped, Gotten, Discarded };
@@ -133,7 +133,7 @@ public class ItemManager : MonoBehaviour
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
         } else if( item1 == ItemList.Scissors && ( item2 == ItemList.Candle || item2 == ItemList.LightingCandle ) ) {
             gObject2.GetComponent<CandleStick>().CutCandle();
-        } else if( item1 == ItemList.Scissors &&  item2 == ItemList.Quilt ) {
+        } else if( item1 == ItemList.Scissors && item2 == ItemList.Quilt ) {
             Inventory.InventoryInstance.RemoveItem( ItemList.Quilt, gObject2 );
             Inventory.InventoryInstance.AddItem( ItemList.DeskKey, PresentState.Gotten, Instantiate( dicForPrefabs[ "DeskKey" ] ) );
         } else if( item1 == ItemList.Scissors && item2 == ItemList.Paper ) {
@@ -144,6 +144,9 @@ public class ItemManager : MonoBehaviour
             gObject1.GetComponent<CutPaperUp>().Burn();
         } else if( item1 == ItemList.CuttenPaperDown && item2 == ItemList.LightingCandle ) {
             gObject1.GetComponent<CutPaperDown>().Burn();
+        } else if( item1 == ItemList.CardKey && item2 == ItemList.Door ) {
+            Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
+            gObject2.GetComponent<Door>().OpenableTheDoor();
         }
     }
 
@@ -160,7 +163,7 @@ public class ItemManager : MonoBehaviour
             || ( item1 == ItemList.Gun && item2 == ItemList.CutCandle ) || ( item1 == ItemList.CutCandle && item2 == ItemList.Gun )
             )
             return new ItemList[] { ItemList.CandleGun };
-        else if( ( item1 == ItemList.PasswordPapeUp && item2 == ItemList.PasswordPaperDown ) || ( item1 == ItemList.PasswordPaperDown && item2 == ItemList.PasswordPapeUp ) )
+        else if( ( item1 == ItemList.PasswordPaperUp && item2 == ItemList.PasswordPaperDown ) || ( item1 == ItemList.PasswordPaperDown && item2 == ItemList.PasswordPaperUp ) )
             return new ItemList[] { ItemList.PasswordPaper };
         else if( ( item1 == ItemList.CardBox && item2 == ItemList.PasswordPaper ) || ( item1 == ItemList.PasswordPaper && item2 == ItemList.CardBox ) )
             return new ItemList[] { ItemList.CardKey };

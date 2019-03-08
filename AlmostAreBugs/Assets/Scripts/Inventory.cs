@@ -113,7 +113,7 @@ public class Inventory : MonoBehaviour
         for( i = 0; i < MAXITEMNUM; i++ )
             if( itemList == itemsInInventory[ i ].item )
                 break;
-        if( i == 20 )
+        if( i == MAXITEMNUM )
             return default;
         else
             return itemsInInventory[ i ];
@@ -138,7 +138,7 @@ public class Inventory : MonoBehaviour
             for( i = 0; i < MAXITEMNUM; i++ )
                 if( item == itemsInInventory[ i ].item )
                     break;
-            itemsInInventory[ i ].item = ItemManager.ItemList.PasswordPapeUp;
+            itemsInInventory[ i ].item = ItemManager.ItemList.PasswordPaperUp;
             return;
         } else
             return;

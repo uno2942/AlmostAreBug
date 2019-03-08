@@ -9,6 +9,7 @@ public class LoadedGun : CollectableItem {
         presentState = ItemManager.PresentState.Gotten;
         ClickEventHandlerReset();
         ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
+        ClickEvent += UiManager.UiManagerInstance.ChangeColorOfBackground;
     }
 
     // Update is called once per frame

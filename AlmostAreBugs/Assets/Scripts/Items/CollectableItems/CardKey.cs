@@ -6,7 +6,10 @@ public class CardKey : CollectableItem {
 
     protected override void Start() {
         base.Start();
-        ClickEvent += Inventory.InventoryInstance.AddItem;
+        presentState = ItemManager.PresentState.Gotten;
+        ClickEventHandlerReset();
+        ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;
+        ClickEvent += UiManager.UiManagerInstance.ChangeColorOfBackground;
     }
 
     // Update is called once per frame
