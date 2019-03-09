@@ -88,15 +88,20 @@ public class ItemManager : MonoBehaviour
 
     public void UseResult( ItemManager.ItemList item1, GameObject gObject1, ItemManager.ItemList item2, GameObject gObject2 ) {
         if( item1 == ItemManager.ItemList.Pillow && item2 == ItemManager.ItemList.Pillow
-            && Inventory.InventoryInstance.CheckItemElement( item1 ).num < 0 ) {
+            && Inventory.InventoryInstance.CheckItemElement( item1 ).num < 0 )
+        {
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.Pillow );
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
             Destroy( gObject2 );
         } else if( item1 == ItemManager.ItemList.DeskKey && item2 == ItemManager.ItemList.TV ) {
+        ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             BugManager.BugManagerInstance.BugOccured( BugManager.BugList.TV );
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
             GameObject.Find( "TV" ).GetComponent<TV>().OpenableDesk();
-        } else if( item1 == ItemManager.ItemList.LoadedGun ) {
+        } else if( item1 == ItemManager.ItemList.LoadedGun )
+        {
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             TMPro.TextMeshProUGUI temp = GameObject.Find( "BulletNum" ).GetComponent<TMPro.TextMeshProUGUI>();
             string text = temp.text;
             Vector3 mouse = Input.mousePosition;
@@ -115,7 +120,9 @@ public class ItemManager : MonoBehaviour
                 gObject1.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/EmptyGun_inven" );
             }
 
-        } else if( item1 == ItemList.CandleGun ) {
+        } else if( item1 == ItemList.CandleGun )
+        {
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             TMPro.TextMeshProUGUI temp = GameObject.Find( "BulletNum" ).GetComponent<TMPro.TextMeshProUGUI>();
             string text = temp.text;
             if( temp.text == "" )
@@ -134,26 +141,39 @@ public class ItemManager : MonoBehaviour
                 GameObject.Find( "ButtonOnGame" ).GetComponent<ButtonOnGame>().OnTheButton();
                 BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.LoadedGun );
             }
-        } else if( item1 == ItemList.BurningMatch && ( item2 == ItemList.Candle ) ) {
+        } else if( item1 == ItemList.BurningMatch && ( item2 == ItemList.Candle ) )
+        {
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             TaskList.TaskListInstance.AddStrikethrough(8);
             gObject2.GetComponent<CandleStick>().LitTheCandle();
             BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.FireMatch );
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
         } else if( item1 == ItemList.Scissors && ( item2 == ItemList.Candle || item2 == ItemList.LightingCandle ) ) {
+
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             gObject2.GetComponent<CandleStick>().CutCandle();
-        } else if( item1 == ItemList.Scissors && item2 == ItemList.Quilt ) {
+        } else if( item1 == ItemList.Scissors && item2 == ItemList.Quilt )
+        {
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             TaskList.TaskListInstance.AddStrikethrough(1);
             Inventory.InventoryInstance.RemoveItem( ItemList.Quilt, gObject2 );
             Inventory.InventoryInstance.AddItem( ItemList.DeskKey, PresentState.Gotten, Instantiate( dicForPrefabs[ "DeskKey" ] ) );
         } else if( item1 == ItemList.Scissors && item2 == ItemList.Paper ) {
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             Inventory.InventoryInstance.RemoveItem( ItemList.Paper, gObject2 );
             Inventory.InventoryInstance.AddItem( ItemList.CuttenPaperDown, PresentState.Gotten, Instantiate( dicForPrefabs[ "CuttenPaperDown" ] ) );
             Inventory.InventoryInstance.AddItem( ItemList.CuttenPaperUp, PresentState.Gotten, Instantiate( dicForPrefabs[ "CuttenPaperUp" ] ) );
         } else if( item1 == ItemList.CuttenPaperUp && item2 == ItemList.LightingCandle ) {
+
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             gObject1.GetComponent<CutPaperUp>().Burn();
         } else if( item1 == ItemList.CuttenPaperDown && item2 == ItemList.LightingCandle ) {
+
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             gObject1.GetComponent<CutPaperDown>().Burn();
         } else if( item1 == ItemList.CardKey && item2 == ItemList.Door ) {
+
+            ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
             gObject2.GetComponent<Door>().OpenableTheDoor();
         }
@@ -161,7 +181,6 @@ public class ItemManager : MonoBehaviour
             ScriptWindow.ScriptWindowInstance.UseFilScript(item1);
             return;
         }
-        ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
     }
 
 

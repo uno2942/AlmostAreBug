@@ -34,11 +34,25 @@ public class BugManager : MonoBehaviour
             }
         }
     }
+    public static string BugName(BugList bug)
+    {
+        switch (bug)
+        {
+            case BugList.Pillow: return "배게 생성 버그";
+            case BugList.TV: return "서랍 버그";
+            case BugList.LoadedGun: return "총 버그";
+            case BugList.FireMatch: return "불타는 성냥 버그";
+            case BugList.Paper: return "종이 버그";
+            default: return "";
+        }
+    }
     private void Awake() {
         GetComponent<AudioSource>().clip = audioClip[ 0 ];
         gameObject.GetComponent<AudioSource>().volume = 0.8f;
         gameObject.GetComponent<AudioSource>().Play();
     }
+
+
     void Start()
     {
         bugList = new List<BugList>();
@@ -59,6 +73,7 @@ public class BugManager : MonoBehaviour
         if (bugDic[bug] == false)
         {
             bugList.Remove(bug);
+            ScriptWindow.ScriptWindowInstance.BugOvercome(bug);
         }
         bugDic[ bug ] = true;
         ChangeAudio();

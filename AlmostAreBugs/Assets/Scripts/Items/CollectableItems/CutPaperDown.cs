@@ -38,6 +38,7 @@ public class CutPaperDown : CollectableItem {
             gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/code_paper_bottom" );
             Inventory.InventoryInstance.Burn( item );
             item = ItemManager.ItemList.PasswordPaperDown;
+            ScriptWindow.ScriptWindowInstance.GetScript(item);
         }
     }
 }

@@ -34,9 +34,7 @@ public class Door : Item {
                 if( isOpened ) {
                     Debug.Log( "Scene try to Load" );
                     UnityEngine.SceneManagement.SceneManager.LoadScene( "gameEnd" );
-                    StartCoroutine(frameDelay());
-
-                    Debug.Log( "Scene Loaded" );
+                    
                     //OpenEvent
                     //gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/door_closed" );
                     //isOpened = false;

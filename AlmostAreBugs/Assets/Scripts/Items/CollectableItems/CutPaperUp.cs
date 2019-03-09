@@ -44,6 +44,7 @@ public class CutPaperUp : CollectableItem {
             gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/code_paper_top" );
             Inventory.InventoryInstance.Burn( item );
             item = ItemManager.ItemList.PasswordPaperUp;
+            ScriptWindow.ScriptWindowInstance.GetScript(item);
         }
     }
 }

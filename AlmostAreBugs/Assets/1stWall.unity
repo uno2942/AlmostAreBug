@@ -615,7 +615,8 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 346011483d4fef443ba3a217c78dbee5, type: 2}
-  m_sharedMaterial: {fileID: 779254531}
+  m_sharedMaterial: {fileID: 21643219439367312, guid: 346011483d4fef443ba3a217c78dbee5,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 779254531}
   m_fontMaterials: []
@@ -657,7 +658,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 2
+  m_overflowMode: 0
   m_firstOverflowCharacterIndex: 18
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
@@ -7553,7 +7554,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 265
+  m_firstOverflowCharacterIndex: 271
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -7581,9 +7582,9 @@ MonoBehaviour:
     spaceCount: 94
     wordCount: 93
     linkCount: 0
-    lineCount: 21
+    lineCount: 22
     pageCount: 1
-    materialCount: 2
+    materialCount: 1
   m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0

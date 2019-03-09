@@ -147,7 +147,7 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void BugOvercome(BugManager.BugList bug)
     {
-        Write(bug.ToString() + "을 극복했다. 나가면 고쳐야겠다. 나갈.. 수.. 있다면….");
+        Write(BugManager.BugName(bug) + "을 극복했다. 나가면 고쳐야겠다. 나갈.. 수.. 있다면….");
     }
 
     public void WriteALine( string str )
