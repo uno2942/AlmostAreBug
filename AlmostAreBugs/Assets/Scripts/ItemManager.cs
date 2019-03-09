@@ -70,7 +70,8 @@ public class ItemManager : MonoBehaviour
         item2 = item;
         var mixResult = MixResult( item1, item2 );
         if( mixResult[ 0 ] != ItemList.Empty ) {
-            if( item1 != ItemList.Scissors )
+            ScriptWindow.ScriptWindowInstance.MixScript(item1, item2, mixResult[0]);
+            if ( item1 != ItemList.Scissors )
                 Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
             if( item2 != ItemList.Scissors )
                 Inventory.InventoryInstance.RemoveItem( item2, gObject2 );
@@ -134,12 +135,14 @@ public class ItemManager : MonoBehaviour
                 BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.LoadedGun );
             }
         } else if( item1 == ItemList.BurningMatch && ( item2 == ItemList.Candle ) ) {
+            TaskList.TaskListInstance.AddStrikethrough(8);
             gObject2.GetComponent<CandleStick>().LitTheCandle();
             BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.FireMatch );
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
         } else if( item1 == ItemList.Scissors && ( item2 == ItemList.Candle || item2 == ItemList.LightingCandle ) ) {
             gObject2.GetComponent<CandleStick>().CutCandle();
         } else if( item1 == ItemList.Scissors && item2 == ItemList.Quilt ) {
+            TaskList.TaskListInstance.AddStrikethrough(1);
             Inventory.InventoryInstance.RemoveItem( ItemList.Quilt, gObject2 );
             Inventory.InventoryInstance.AddItem( ItemList.DeskKey, PresentState.Gotten, Instantiate( dicForPrefabs[ "DeskKey" ] ) );
         } else if( item1 == ItemList.Scissors && item2 == ItemList.Paper ) {
@@ -154,36 +157,55 @@ public class ItemManager : MonoBehaviour
             Inventory.InventoryInstance.RemoveItem( item1, gObject1 );
             gObject2.GetComponent<Door>().OpenableTheDoor();
         }
+        else {
+            ScriptWindow.ScriptWindowInstance.UseFilScript(item1);
+            return;
+        }
+        ScriptWindow.ScriptWindowInstance.UseSuccessScript(item1);
     }
 
 
 
     public ItemList[] MixResult(ItemList item1, ItemList item2 ) {
-        if( ( item1 == ItemList.Quilt && item2 == ItemList.Scissors ) || ( item1 == ItemList.Scissors && item2 == ItemList.Quilt ) )
+        if ((item1 == ItemList.Quilt && item2 == ItemList.Scissors) || (item1 == ItemList.Scissors && item2 == ItemList.Quilt))
+        {
+            TaskList.TaskListInstance.AddStrikethrough(1);
             return new ItemList[] { ItemList.DeskKey };
-        else if( ( item1 == ItemList.Paper && item2 == ItemList.Scissors ) || ( item1 == ItemList.Scissors && item2 == ItemList.Paper ) )
+        }
+        else if ((item1 == ItemList.Paper && item2 == ItemList.Scissors) || (item1 == ItemList.Scissors && item2 == ItemList.Paper))
             return new ItemList[] { ItemList.CuttenPaperUp, ItemList.CuttenPaperDown };
-        else if( ( item1 == ItemList.Bullet && item2 == ItemList.Gun ) || ( item1 == ItemList.Gun && item2 == ItemList.Bullet ) )
+        else if ((item1 == ItemList.Bullet && item2 == ItemList.Gun) || (item1 == ItemList.Gun && item2 == ItemList.Bullet))
+        {
+            TaskList.TaskListInstance.AddStrikethrough(3);
             return new ItemList[] { ItemList.LoadedGun };
-        else if( ( item1 == ItemList.LoadedGun && item2 == ItemList.CutCandle ) || ( item1 == ItemList.CutCandle && item2 == ItemList.LoadedGun )
-            || ( item1 == ItemList.Gun && item2 == ItemList.CutCandle ) || ( item1 == ItemList.CutCandle && item2 == ItemList.Gun )
+        }
+        else if ((item1 == ItemList.LoadedGun && item2 == ItemList.CutCandle) || (item1 == ItemList.CutCandle && item2 == ItemList.LoadedGun)
+            || (item1 == ItemList.Gun && item2 == ItemList.CutCandle) || (item1 == ItemList.CutCandle && item2 == ItemList.Gun)
             )
             return new ItemList[] { ItemList.CandleGun };
-        else if( ( item1 == ItemList.PasswordPaperUp && item2 == ItemList.PasswordPaperDown ) || ( item1 == ItemList.PasswordPaperDown && item2 == ItemList.PasswordPaperUp ) )
-            {
-            BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.Paper );
+        else if ((item1 == ItemList.PasswordPaperUp && item2 == ItemList.PasswordPaperDown) || (item1 == ItemList.PasswordPaperDown && item2 == ItemList.PasswordPaperUp))
+        {
+            TaskList.TaskListInstance.AddStrikethrough(11);
+            BugManager.BugManagerInstance.BugOvercomed(BugManager.BugList.Paper);
             return new ItemList[] { ItemList.PasswordPaper };
         }
-        else if( ( item1 == ItemList.CardBox && item2 == ItemList.PasswordPaper ) || ( item1 == ItemList.PasswordPaper && item2 == ItemList.CardBox ) )
+        else if ((item1 == ItemList.CardBox && item2 == ItemList.PasswordPaper) || (item1 == ItemList.PasswordPaper && item2 == ItemList.CardBox))
+        {
+            TaskList.TaskListInstance.AddStrikethrough(12);
             return new ItemList[] { ItemList.CardKey };
-        else if( ( item1 == ItemList.Matchbox && item2 == ItemList.Match ) || ( item1 == ItemList.Match && item2 == ItemList.Matchbox ) ) {
-            BugManager.BugManagerInstance.BugOccured( BugManager.BugList.FireMatch );
+        }
+        else if ((item1 == ItemList.Matchbox && item2 == ItemList.Match) || (item1 == ItemList.Match && item2 == ItemList.Matchbox))
+        {
+            TaskList.TaskListInstance.AddStrikethrough(7);
+            BugManager.BugManagerInstance.BugOccured(BugManager.BugList.FireMatch);
             return new ItemList[] { ItemList.BurningMatch };
-        } else
+        }
+        else
             return new ItemList[] { ItemList.Empty };
     }
 
     public void PutPaperOnFax() {
+        TaskList.TaskListInstance.AddStrikethrough(9);
         Instantiate( dicForPrefabs[ "Paper" ], GameObject.Find( "Canvas" ).GetComponent<Transform>() );
     }
 

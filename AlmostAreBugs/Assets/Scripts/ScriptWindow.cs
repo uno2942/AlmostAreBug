@@ -106,7 +106,16 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
         return "";
     }
+    public void WriteNoenter(string str)
+    {
 
+        scriptWindow.GetComponentInChildren<TextMeshProUGUI>().text += (str);
+        /*foreach(var strLine in str.Split('\n')) {
+            WriteALine(strLine)
+        }
+        */
+    }
+    
     public void Write(string str ) {
 
         scriptWindow.GetComponentInChildren<TextMeshProUGUI>().text += (str+'\n');
@@ -116,13 +125,37 @@ public class ScriptWindow : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
         */
     }
+    public void GetScript(ItemManager.ItemList item)
+    {
+        Write(ItemNameForCheckedItem(item) + "을(를) 얻었다");
+    }
+
+    public void UseSuccessScript(ItemManager.ItemList item)
+    {
+        Write(ItemNameForCheckedItem(item) + "을(를) 사용했다");
+    }
+
+    public void UseFilScript(ItemManager.ItemList item)
+    {
+        Write(ItemNameForCheckedItem(item)+ "은(는) 그곳에 사용할 수 없다.");
+    }
+
+    public void MixScript(ItemManager.ItemList item1, ItemManager.ItemList item2, ItemManager.ItemList res)
+    {
+        WriteNoenter(ItemNameForCheckedItem(item1)+ "와(과) " + ItemNameForCheckedItem(item2)+ "을(를) 합쳐 ");
+    }
+
+    public void BugOvercome(BugManager.BugList bug)
+    {
+        Write(bug.ToString() + "을 극복했다. 나가면 고쳐야겠다. 나갈.. 수.. 있다면….");
+    }
+
     public void WriteALine( string str )
     {
         if( str == null )
             Debug.LogError( "string is null" );
         if( str.Split( '\n' ).Length > 1 )
             Debug.LogError( "string is over one line" );
-            // '\n'+gameObject의 Text(mesh pro)에 한 줄을 넣는 부분이 들어가야함.
             ScriptWindowOn();
     }
 

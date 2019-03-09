@@ -46,14 +46,14 @@ public class TaskList : MonoBehaviour
         taskListText.text = strBuilder.ToString();
     }
 
-    private void AddStrikethrough(int line) {
+    public void AddStrikethrough(int line) {
         string[] strarray = strBuilder.ToString().Split( '\n' );
         int len = 0;
         int len2 = 0;
         int i;
         for( i = 0; i < line; i++ )
-            len += strarray[ i ].Length;
-        strBuilder.Insert( len+1, "<s>" );
+            len += strarray[ i ].Length+1;
+        strBuilder.Insert( len+1, " <s>" );
         len2 = len + 1 + strarray[ i ].Length + "<s>".Length;
         strBuilder.Insert( len2 , "</s>" );
         taskListText.text = strBuilder.ToString();

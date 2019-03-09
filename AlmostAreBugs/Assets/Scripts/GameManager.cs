@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
         isWatingForAnotherItemForMix = true;
         item = ItemManager.ItemList.Empty;
         isCanceled = false;
+        ((RectTransform)cancelWindow.transform).localPosition = new Vector3(BoardManager.BoardManagerInstance.nowPosForCanvas(), 0, 0);
         cancelWindow.SetActive( true );
         StartCoroutine( WaitForAnotherItemForMixCoroutine() );
     }

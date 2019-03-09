@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class Door : Item {
     private bool isOpenable;
@@ -19,21 +21,38 @@ public class Door : Item {
         
     }
 
+    public override void Clicked()
+    {
+        base.Clicked();
+        OpenDoor();
+    }
     private void OpenDoor() {
         if( !( GameManager.GameManagerInstance.IsWatingForAnotherItemForMix || GameManager.GameManagerInstance.IsWatingForAnotherItemForUse || GameManager.GameManagerInstance.IsWatingForButton ) ) {
             if( isOpenable ) {
+                Debug.Log( "openAble" );
+               
                 if( isOpened ) {
+                    Debug.Log( "Scene try to Load" );
+                    UnityEngine.SceneManagement.SceneManager.LoadScene( "gameEnd" );
+                    StartCoroutine(frameDelay());
+
+                    Debug.Log( "Scene Loaded" );
                     //OpenEvent
-                    gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/door_closed" );
-                    isOpened = false;
+                    //gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/door_closed" );
+                    //isOpened = false;
                 } else {
                     gameObject.GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>( "Image/door_opened" );
                     isOpened = true;
+                    TaskList.TaskListInstance.AddStrikethrough(13);
                 }
             }
         }
     }
-    public void OpenableTheDoor() {
+    private IEnumerator frameDelay() {
+        yield return null;
+    }
+
+        public void OpenableTheDoor() {
         isOpenable = true;
         OpenDoor();
     }

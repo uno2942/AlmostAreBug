@@ -56,8 +56,10 @@ public class BugManager : MonoBehaviour
     }
 
     public void BugOvercomed(BugList bug ) {
-        if( bugDic[ bug ] == false )
-            bugList.Remove( bug );
+        if (bugDic[bug] == false)
+        {
+            bugList.Remove(bug);
+        }
         bugDic[ bug ] = true;
         ChangeAudio();
     }

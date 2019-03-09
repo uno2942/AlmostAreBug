@@ -23,6 +23,7 @@ public class Paper : CollectableItem {
         if( ClickEventHandlerInvoker( item, presentState, gameObject ) ) {
             switch( presentState ) {
             case ItemManager.PresentState.Dropped:
+                    TaskList.TaskListInstance.AddStrikethrough(10);
                 presentState = ItemManager.PresentState.Gotten;
                 ClickEventHandlerReset();
                 ClickEvent += UiManager.UiManagerInstance.OpenMessageBox;

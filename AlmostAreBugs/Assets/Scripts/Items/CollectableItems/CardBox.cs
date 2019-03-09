@@ -23,6 +23,7 @@ public class CardBox : CollectableItem {
         if( ClickEventHandlerInvoker( item, presentState, gameObject ) ) {
             switch( presentState ) {
             case ItemManager.PresentState.Dropped:
+                    TaskList.TaskListInstance.AddStrikethrough(4);
                 BugManager.BugManagerInstance.BugOvercomed( BugManager.BugList.TV );
                 presentState = ItemManager.PresentState.Gotten;
                 ClickEventHandlerReset();

@@ -52,7 +52,8 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(ItemManager.ItemList itemList, ItemManager.PresentState presentStat, GameObject gObject ) {
         int i;
-        for( i = 0; i < MAXITEMNUM; i++ )
+        ScriptWindow.ScriptWindowInstance.GetScript(itemList);
+        for ( i = 0; i < MAXITEMNUM; i++ )
             if( itemList == itemsInInventory[ i ].item )
                 break;
         if( i == MAXITEMNUM ) {
